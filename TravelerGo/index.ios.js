@@ -16,15 +16,14 @@ export default class TravelerGo extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
+        <Text style={styles.weather_header}>
+          Put weather, location here
         </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
+        <Text style={styles.nearby_posts}>
+          embed nearby postsa here
         </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
+        <Text style={styles.bottom_functions}>
+          put buttons heres
         </Text>
       </View>
     );
@@ -34,20 +33,19 @@ export default class TravelerGo extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  weather_header: {
+      flex: 2,
+      backgroundColor: 'powderblue'
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  nearby_posts: {
+      flex: 10,
+      backgroundColor: 'skyblue',
   },
+  bottom_functions: {
+      flex: 1,
+      backgroundColor: 'steelblue',
+  }
 });
 
 AppRegistry.registerComponent('TravelerGo', () => TravelerGo);
