@@ -45,7 +45,7 @@ export default class WeatherHeader extends Component {
             console.log(responseJson)
             this.setState({position_name: responseJson.name})
         } catch(error) {
-            console.error(error);
+            console.log(error);
         }
     }
 
