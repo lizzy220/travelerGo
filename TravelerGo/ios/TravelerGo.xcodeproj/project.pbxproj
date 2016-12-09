@@ -41,7 +41,6 @@
 		5818C6EF1DFA17E300F15B18 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5818C6E61DFA17E300F15B18 /* Octicons.ttf */; };
 		5818C6F01DFA17E300F15B18 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5818C6E71DFA17E300F15B18 /* SimpleLineIcons.ttf */; };
 		5818C6F11DFA17E300F15B18 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5818C6E81DFA17E300F15B18 /* Zocial.ttf */; };
-		5818C7BA1DFA9A9A00F15B18 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		6365BB5C1DFABF8D0043AE04 /* ImageCropPickerSDK in Resources */ = {isa = PBXBuildFile; fileRef = 6365BB5B1DFABF8D0043AE04 /* ImageCropPickerSDK */; };
 		6365BB5E1DFAC07C0043AE04 /* RSKImageCropper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6365BB5D1DFAC07C0043AE04 /* RSKImageCropper.framework */; };
@@ -631,7 +630,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 810;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -900,7 +899,6 @@
 				AE6943FA937F4541A94F2017 /* Arial Black.ttf in Resources */,
 				3C14D3344EC64EF7B1DB5539 /* Arial.ttf in Resources */,
 				79CF1D65187844BAAC68B3FE /* Comic Sans MS.ttf in Resources */,
-				5818C7BA1DFA9A9A00F15B18 /* Info.plist in Resources */,
 				49D25A9BBD654020ACE44CFF /* Courier New.ttf in Resources */,
 				25EC4C6BC8A3453CB6CE99D4 /* Georgia.ttf in Resources */,
 				F1B8E10E9C0446108F6FA6B4 /* Microsoft Sans Serif.ttf in Resources */,
@@ -993,6 +991,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = X22G96ALFV;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1008,6 +1007,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelerGo.app/TravelerGo";
 			};
 			name = Debug;
@@ -1016,6 +1017,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEVELOPMENT_TEAM = X22G96ALFV;
@@ -1028,6 +1030,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TravelerGo.app/TravelerGo";
 			};
 			name = Release;
@@ -1049,7 +1053,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = TravelerGo;
-				PROVISIONING_PROFILE = "0dd3b418-2206-47f8-b524-0a918f963bb5";
+				PROVISIONING_PROFILE = "fa08c8c4-21a3-4daf-93d3-a53841b7560e";
 				PROVISIONING_PROFILE_SPECIFIER = nothingspecial;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1071,7 +1075,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = TravelerGo;
-				PROVISIONING_PROFILE = "0dd3b418-2206-47f8-b524-0a918f963bb5";
+				PROVISIONING_PROFILE = "fa08c8c4-21a3-4daf-93d3-a53841b7560e";
 				PROVISIONING_PROFILE_SPECIFIER = nothingspecial;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1129,7 +1133,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				PROVISIONING_PROFILE = "24a5f70d-538a-4963-a619-2161c74dfffc";
+				PROVISIONING_PROFILE = "0dd3b418-2206-47f8-b524-0a918f963bb5";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 			};
@@ -1178,7 +1182,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PROVISIONING_PROFILE = "24a5f70d-538a-4963-a619-2161c74dfffc";
+				PROVISIONING_PROFILE = "0dd3b418-2206-47f8-b524-0a918f963bb5";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
