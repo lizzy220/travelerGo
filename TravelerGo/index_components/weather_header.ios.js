@@ -13,14 +13,14 @@ export default class WeatherHeader extends Component {
         navigator.geolocation.getCurrentPosition(
             (position) => {
                 this.setState({lastPosition: position});
-                this.getWeather(position)
+                this.getLocation(position)
             },
             (error) => alert(JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
         );
         this.watchID = navigator.geolocation.watchPosition((position) => {
             this.setState({lastPosition: position});
-            this.getWeather(position)
+            this.getLocation(position)
         });
     }
 
@@ -44,6 +44,30 @@ export default class WeatherHeader extends Component {
             let responseJson = await response.json();
             console.log(responseJson)
             this.setState({position_name: responseJson.name})
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    async getLocation(position) {
+        console.log(position)
+        const loc = {'lat': position.coords.latitude, 'lon': position.coords.longitude}
+        try {
+            var headers = new Headers();
+            google_map_url = 'https://maps.googleapis.com/maps/api/geocode/json?latlng='+loc.lat + ',' + loc.lon + '&result_type=locality&key=AIzaSyAvPsaA7HzHExgy-TER2mZjJ_2keqYRwSw';
+            console.log(google_map_url)
+            let response = await fetch(google_map_url,
+                {
+                  method: "GET",
+                  headers: headers
+                }
+            );
+            let responseJson = await response.json();
+            console.log(responseJson)
+            if (responseJson.status == 'OK') {
+                name = responseJson.results[0].address_components[0].long_name;
+                this.setState({position_name: name})
+            }
         } catch(error) {
             console.log(error);
         }
