@@ -15,7 +15,6 @@ import {
     Button,
 } from 'react-native';
 import HomeScreen from './homeScreen';
-import MyCamera from './takeCamera';
 import CameraPictureScreen from './cameraPicture';
 
 export default class TravelerGo extends Component {
@@ -28,8 +27,6 @@ export default class TravelerGo extends Component {
                     switch (route.title) {
                       case 'homeScreen':
                         return <HomeScreen navigator={navigator}/>
-                      case 'takeCamera':
-                        return <MyCamera navigator={navigator} />
                       case 'cameraPicture':
                         return <CameraPictureScreen navigator={navigator} image={route.image}/>
                     }

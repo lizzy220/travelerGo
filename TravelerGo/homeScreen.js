@@ -15,7 +15,7 @@ import {
     Button,
 } from 'react-native';
 
-import ImagePicker from 'react-native-image-crop-picker';
+import ImagePicker from 'react-native-image-picker';
 import WeatherHeader from './index_components/weather_header';
 
 export default class HomeScreen extends Component {
@@ -25,14 +25,20 @@ export default class HomeScreen extends Component {
     }
     onPressCamera(){
       var self = this;
-      console.log('open camera');
-      ImagePicker.openCamera({
-        useFrontCamera: true,
-      }).then((image) => {
-          self.props.navigator.push({title: 'cameraPicture', image: image});
+      var options = {
+        storageOptions: {
+          skipBackup: true,
+          path: 'images',
+          cameraRoll: true,
+        },
+      };
+      ImagePicker.launchCamera(options, (response) => {
+          if(!response.didCancel){
+            self.props.navigator.push({title: 'cameraPicture', image: response});
+          }
       });
-      //this.props.navigator.push({title: 'takeCamera',});
     }
+
     render() {
         return (
             <View style={styles.container}>

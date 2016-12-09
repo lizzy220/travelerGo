@@ -28,10 +28,11 @@ export default class CameraPictureScreen extends Component {
     }
 
     render(){
+      const source = {uri: 'data:image/jpeg;base64,' + this.props.image.data, isStatic: true};
       return(
         <View style={styles.container}>
           <View style={styles.picContainer}>
-            <Image style={styles.img} source={require('./place_holder_cat.jpg')} />
+            <Image source={source} style={styles.img}/>
           </View>
           <View style={styles.funcContainer}>
             <Text style={styles.func} onPress={this.cancel}>Cancel</Text>
@@ -61,6 +62,10 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
   },
+  img:{
+    width: 300,
+    height: 400,
+  }
 });
 
 AppRegistry.registerComponent('CameraPictureScreen', () => CameraPictureScreen);
