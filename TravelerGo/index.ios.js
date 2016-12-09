@@ -16,22 +16,26 @@ import {
 } from 'react-native';
 import HomeScreen from './homeScreen';
 import MyCamera from './takeCamera';
+import CameraPictureScreen from './cameraPicture';
 
 export default class TravelerGo extends Component {
 
     render() {
         return (
             <Navigator
-                initialRoute={{title:'homeScreen'}}
+                initialRoute={{title:'homeScreen',}}
                 renderScene={(route, navigator) =>{
                     switch (route.title) {
                       case 'homeScreen':
                         return <HomeScreen navigator={navigator}/>
                       case 'takeCamera':
                         return <MyCamera navigator={navigator} />
+                      case 'cameraPicture':
+                        return <CameraPictureScreen navigator={navigator} />
                     }
                   }
                 }
+                configureScene={(route, routeStack) => Navigator.SceneConfigs.FloatFromBottom}
             />
         );
     }

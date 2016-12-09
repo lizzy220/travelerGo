@@ -23,7 +23,8 @@ export default class HomeScreen extends Component {
       this.onPressCamera=this.onPressCamera.bind(this);
     }
     onPressCamera(){
-      this.props.navigator.push({title: 'takeCamera'});
+      console.log('open camera');
+      this.props.navigator.push({title: 'takeCamera',});
     }
     render() {
         return (

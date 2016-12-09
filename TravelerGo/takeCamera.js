@@ -4,21 +4,23 @@ import {
   AppRegistry,
   Dimensions,
   StyleSheet,
-  Button,
+  Text,
   TouchableHighlight,
   View
 } from 'react-native';
 import Camera from 'react-native-camera';
+import {Icon} from 'native-base';
 
 export default class MyCamera extends Component {
   constructor(props){
     super(props);
-    this.cancle=this.cancle.bind(this);
+    this.cancel=this.cancel.bind(this);
     this.takePicture=this.takePicture.bind(this);
   }
 
-  cancle(){
+  cancel(){
     this.props.navigator.pop();
+    console.log('cancel camera');
   }
 
   render() {
@@ -31,8 +33,9 @@ export default class MyCamera extends Component {
           style={styles.preview}
           aspect={Camera.constants.Aspect.fill}>
           <View style={styles.functionBar}>
-            <Button style={styles.capture} onPress={this.cancle} title="cancel"/>
-            <Button style={styles.capture} onPress={this.takePicture} title="capture"/>
+            <View style={styles.function}><Text style={styles.cancel} onPress={this.cancel}>Cancel</Text></View>
+            <View style={styles.function}><Icon name="ios-radio-button-on" style={styles.shot} onPress={this.takePicture}/></View>
+            <View style={styles.function}></View>
           </View>
         </Camera>
       </View>
@@ -40,8 +43,12 @@ export default class MyCamera extends Component {
   }
 
   takePicture() {
+    var self = this;
     this.camera.capture()
-      .then((data) => console.log(data))
+      .then((path) => {
+          console.log('take pic');
+          self.props.navigator.push({title: 'cameraPicture'});
+      })
       .catch(err => console.error(err));
   }
 }
@@ -58,16 +65,23 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width
   },
   functionBar: {
-    flex: 0,
+    height: 100,
+    alignSelf: 'stretch',
     flexDirection: 'row',
+    alignItems: 'center',
   },
-  capture: {
-    flex: 0,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    color: '#000',
-    padding: 10,
-    margin: 40
+  function: {
+    flex: 1,
+  },
+  shot: {
+    color: '#fff',
+    fontSize: 75,
+    alignSelf:'center',
+  },
+  cancel: {
+    color: '#fff',
+    fontSize: 25,
+    paddingLeft: 10,
   }
 });
 
