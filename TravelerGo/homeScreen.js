@@ -15,6 +15,7 @@ import {
     Button,
 } from 'react-native';
 
+import ImagePicker from 'react-native-image-crop-picker';
 import WeatherHeader from './index_components/weather_header';
 
 export default class HomeScreen extends Component {
@@ -24,7 +25,14 @@ export default class HomeScreen extends Component {
     }
     onPressCamera(){
       console.log('open camera');
-      this.props.navigator.push({title: 'takeCamera',});
+      ImagePicker.openCamera({
+        width: 300,
+        height: 400,
+        cropping: true
+      }).then((image) => {
+          console.log(image);
+      });
+      //this.props.navigator.push({title: 'takeCamera',});
     }
     render() {
         return (

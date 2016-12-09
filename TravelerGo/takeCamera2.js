@@ -9,6 +9,7 @@ import {
   View,
   Image,
 } from 'react-native';
+import ImagePicker from 'react-native-image-crop-picker';
 
 export default class CameraPictureScreen extends Component {
     constructor(props){
