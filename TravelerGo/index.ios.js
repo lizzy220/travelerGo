@@ -14,6 +14,8 @@ import {
     StatusBar,
 } from 'react-native';
 
+import WeatherHeader from './index_components/weather_header';
+
 export default class TravelerGo extends Component {
     render() {
         return (
@@ -27,9 +29,7 @@ export default class TravelerGo extends Component {
                 renderScene={(route, navigator) =>
                     <View style={styles.container}>
                         <StatusBar hidden={true} />
-                        <Text style={styles.weather_header}>
-                        Put weather, location here
-                        </Text>
+                        <WeatherHeader style={styles.weather_header} />
                         <Text style={styles.nearby_posts}>
                         embed nearby postsa here
                         </Text>
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     weather_header: {
-        flex: 3,
+        flex: 4,
         backgroundColor: 'powderblue'
     },
     nearby_posts: {
