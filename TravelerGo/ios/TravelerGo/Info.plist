@@ -47,11 +47,11 @@
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
 				<true/>
 			</dict>
-      <key>openweathermap.org</key>
-      <dict>
-        <key>NSExceptionAllowsInsecureHTTPLoads</key>
-        <true/>
-      </dict>
+			<key>api.openweathermap.org</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 		</dict>
 	</dict>
 	<key>UIAppFonts</key>
@@ -78,5 +78,11 @@
 		<string>Zocial.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 	</array>
+	<key>NSCameraUsageDescription</key>
+	<string>Your message to user when the camera is accesseded for the first time</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Your message to user when the photo library is accessed for the first time</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Your message to user when the microsphone is accessed for the first time</string>
 </dict>
 </plist>
