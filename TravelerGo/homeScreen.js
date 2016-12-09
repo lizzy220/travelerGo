@@ -24,13 +24,12 @@ export default class HomeScreen extends Component {
       this.onPressCamera=this.onPressCamera.bind(this);
     }
     onPressCamera(){
+      var self = this;
       console.log('open camera');
       ImagePicker.openCamera({
-        width: 300,
-        height: 400,
-        cropping: true
+        useFrontCamera: true,
       }).then((image) => {
-          console.log(image);
+          self.props.navigator.push({title: 'cameraPicture', image: image});
       });
       //this.props.navigator.push({title: 'takeCamera',});
     }

@@ -31,7 +31,7 @@ export default class TravelerGo extends Component {
                       case 'takeCamera':
                         return <MyCamera navigator={navigator} />
                       case 'cameraPicture':
-                        return <CameraPictureScreen navigator={navigator} />
+                        return <CameraPictureScreen navigator={navigator} image={route.image}/>
                     }
                   }
                 }
