@@ -41,6 +41,7 @@
 		5818C6EF1DFA17E300F15B18 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5818C6E61DFA17E300F15B18 /* Octicons.ttf */; };
 		5818C6F01DFA17E300F15B18 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5818C6E71DFA17E300F15B18 /* SimpleLineIcons.ttf */; };
 		5818C6F11DFA17E300F15B18 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5818C6E81DFA17E300F15B18 /* Zocial.ttf */; };
+		5818C7BA1DFA9A9A00F15B18 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB61A68108700A75B9A /* Info.plist */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		688DD665078949C7B7AB8AD8 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A1F649DBFE3F4FA5B387A01A /* Entypo.ttf */; };
 		79CF1D65187844BAAC68B3FE /* Comic Sans MS.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D3F75A4A138C46FEB2CC3C6C /* Comic Sans MS.ttf */; };
@@ -839,6 +840,7 @@
 				AE6943FA937F4541A94F2017 /* Arial Black.ttf in Resources */,
 				3C14D3344EC64EF7B1DB5539 /* Arial.ttf in Resources */,
 				79CF1D65187844BAAC68B3FE /* Comic Sans MS.ttf in Resources */,
+				5818C7BA1DFA9A9A00F15B18 /* Info.plist in Resources */,
 				49D25A9BBD654020ACE44CFF /* Courier New.ttf in Resources */,
 				25EC4C6BC8A3453CB6CE99D4 /* Georgia.ttf in Resources */,
 				F1B8E10E9C0446108F6FA6B4 /* Microsoft Sans Serif.ttf in Resources */,

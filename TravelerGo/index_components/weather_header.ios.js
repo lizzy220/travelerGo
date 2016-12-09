@@ -1,11 +1,14 @@
 import React, { Component } from 'react'
-import {View, Text, Navigator, StyleSheet } from 'react-native'
+import {View, Text, Navigator, StyleSheet, Image } from 'react-native'
 import { Container, Content, Icon} from 'native-base';
 
 export default class WeatherHeader extends Component {
     state = {
         lastPosition: null,
-        position_name: null
+        position_name: null,
+        weather: null,
+        weather_cur_temp: '--°F',
+        weather_temp_range: '--°F / --°F',
     };
     watchID: ?number = null;
 
@@ -14,6 +17,7 @@ export default class WeatherHeader extends Component {
             (position) => {
                 this.setState({lastPosition: position});
                 this.getLocation(position)
+                this.getWeather(position)
             },
             (error) => alert(JSON.stringify(error)),
             {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -21,6 +25,7 @@ export default class WeatherHeader extends Component {
         this.watchID = navigator.geolocation.watchPosition((position) => {
             this.setState({lastPosition: position});
             this.getLocation(position)
+            this.getWeather(position)
         });
     }
 
@@ -43,7 +48,14 @@ export default class WeatherHeader extends Component {
             );
             let responseJson = await response.json();
             console.log(responseJson)
-            this.setState({position_name: responseJson.name})
+            main = responseJson.weather[0]
+            cur_temp = (responseJson.main.temp - 273.15).toFixed()
+            low_temp = (responseJson.main.temp_min - 273.15).toFixed()
+            high_temp = (responseJson.main.temp_max - 273.15).toFixed()
+            unit = '°C'
+            cur_temp_str = cur_temp + ' ' + unit
+            temp_range_str = low_temp + ' ' + unit + ' / ' + high_temp + ' ' + unit
+            this.setState({weather_cur_temp: cur_temp_str, weather_temp_range: temp_range_str, weather: main})
         } catch(error) {
             console.log(error);
         }
@@ -78,12 +90,41 @@ export default class WeatherHeader extends Component {
         if (this.state.position_name != null) {
             location = this.state.position_name
         }
+        var weather_desc = '---'
+        var icon_name = 'ios-sunny-outline'
+        if (this.state.weather != null) {
+            weather_desc = this.state.weather.description
+            var weather_code = this.state.weather.id / 100
+            if (weather_code == 2) {
+                icon_name = 'ios-thunderstorm-outline'
+            } else if (weather_code == 3) {
+                icon_name = 'ios-rainy-outline'
+            } else if (weather_code == 5) {
+                icon_name = 'ios-rainy-outline'
+            } else if (weather_code == 6) {
+                icon_name = 'ios-snow-outline'
+            } else if (weather_code == 7) {
+                icon_name = 'ios-nuclear-outline'
+            } else if (weather_code == 8) {
+                icon_name = 'ios-sunny-outline'
+            } else {
+                icon_name = 'ios-cloud-outline'
+            }
+        }
         return (
             <View style={styles.container}>
-            <Icon name="ios-sunny" style={styles.weather_icon}/>
-            <Text style={styles.location_name}>
-            {location}
-            </Text>
+                <Icon name={icon_name} style={styles.weather_icon}/>
+                <View style={styles.weather}>
+                    <Text style={styles.location_name}>
+                    {location}
+                    </Text>
+                    <Text style={styles.weather_desc}>
+                    {weather_desc}  {this.state.weather_cur_temp}
+                    </Text>
+                    <Text style={styles.weather_temp_range}>
+                    {this.state.weather_temp_range}
+                    </Text>
+                </View>
             </View>
         )
     }
@@ -91,7 +132,7 @@ export default class WeatherHeader extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
+        flex: 2.5,
         backgroundColor: 'powderblue',
         flexDirection: 'row',
         justifyContent: 'space-around',
@@ -99,15 +140,27 @@ const styles = StyleSheet.create({
     },
     weather_icon: {
         fontSize: 100,
-        color: 'yellow',
-        paddingTop: 10,
-        paddingRight: 10,
+        color: 'white',
+        paddingLeft: 2,
     },
     location_name: {
-        fontSize: 40,
+        fontSize: 35,
         paddingTop: 10,
         color: 'white',
         fontWeight: 'bold',
-        paddingLeft: 10,
+    },
+    weather: {
+        flexDirection: 'column',
+        justifyContent: 'space-around',
+        alignItems: 'flex-end',
+        paddingRight: 2,
+    },
+    weather_desc: {
+        fontSize: 25,
+        color: 'white',
+    },
+    weather_temp_range: {
+        fontSize: 20,
+        color: 'white',
     }
 });
