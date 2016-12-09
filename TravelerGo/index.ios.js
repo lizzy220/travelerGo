@@ -12,54 +12,29 @@ import {
     Text,
     View,
     StatusBar,
+    Button,
 } from 'react-native';
-
-import WeatherHeader from './index_components/weather_header';
+import HomeScreen from './homeScreen';
+import MyCamera from './takeCamera';
 
 export default class TravelerGo extends Component {
+
     render() {
         return (
-            <View style={styles.container}>
-                <StatusBar
-                backgroundColor="blue"
-                barStyle="light-content"
-                />
-                <Navigator
-                initialRoute={{title:'Travel Go', index: 0}}
-                renderScene={(route, navigator) =>
-                    <View style={styles.container}>
-                        <StatusBar hidden={true} />
-                        <WeatherHeader style={styles.weather_header} />
-                        <Text style={styles.nearby_posts}>
-                        embed nearby postsa here
-                        </Text>
-                        <Text style={styles.bottom_functions}>
-                        put buttons heres
-                        </Text>
-                    </View>
+            <Navigator
+                initialRoute={{title:'homeScreen'}}
+                renderScene={(route, navigator) =>{
+                    switch (route.title) {
+                      case 'homeScreen':
+                        return <HomeScreen navigator={navigator}/>
+                      case 'takeCamera':
+                        return <MyCamera navigator={navigator} />
+                    }
+                  }
                 }
-                />
-            </View>
+            />
         );
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    weather_header: {
-        flex: 4,
-        backgroundColor: 'powderblue'
-    },
-    nearby_posts: {
-        flex: 10,
-        backgroundColor: 'skyblue',
-    },
-    bottom_functions: {
-        flex: 1,
-        backgroundColor: 'steelblue',
-    }
-});
 
 AppRegistry.registerComponent('TravelerGo', () => TravelerGo);
