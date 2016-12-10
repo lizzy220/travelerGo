@@ -18,12 +18,13 @@ import {
 
 import ImagePicker from 'react-native-image-picker';
 import WeatherHeader from './index_components/weather_header';
+import Thumbnail from './index_components/thumbnail';
 
 export default class HomeScreen extends Component {
     constructor(props){
       super(props);
       this.onPressCamera=this.onPressCamera.bind(this);
-      this.clickPicture=this.clickPicture.bind(this);
+      {/* this.clickPicture=this.clickPicture.bind(this); */}
     }
     onPressCamera(){
       var self = this;
@@ -57,7 +58,8 @@ export default class HomeScreen extends Component {
                     <StatusBar hidden={true} />
                     <WeatherHeader style={styles.weather_header} />
                     <View style={styles.nearby_posts}>
-                        <Text onPress={this.clickPicture} >pic</Text>
+                        <Thumbnail onPressCamera={this.onPressCamera}/>
+                        {/* <Text onPress={this.clickPicture} >pic</Text> */}
                     </View>
                     <View style={styles.bottom_functions}>
                         <Button
