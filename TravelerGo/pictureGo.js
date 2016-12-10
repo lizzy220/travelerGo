@@ -8,9 +8,9 @@ import {
   TouchableHighlight,
   View,
   Image,
-  Button,
   Linking,
 } from 'react-native';
+import {Button, Icon} from 'native-base';
 
 export default class PictureGo extends Component {
   constructor(props){
@@ -37,14 +37,19 @@ export default class PictureGo extends Component {
   render(){
     return(
       <View style={styles.container}>
-        <View style={styles.back}>
-          <Button title='Back' onPress={this.backHome}/>
+        <View style={styles.backContainer}>
+          <Button info onPress={this.backHome} style={{backgroundColor: 'transparent'}} color='red'>
+            Back
+            <Icon name='ios-arrow-back' />
+          </Button>
         </View>
         <View style={styles.imgContainer}>
           <Image style={styles.img} source={require('./place_holder_cat.jpg')} />
         </View>
-        <View style={styles.go}>
-          <Button title='Go' onPress={this.gotoMap}/>
+        <View style={styles.goConatiner}>
+        <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
+            <Text style={{fontSize: 35, color: 'white'}}>Go</Text>
+        </TouchableHighlight>
         </View>
       </View>
     );
@@ -55,8 +60,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  back: {
+  backContainer: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
   },
   imgContainer: {
     flex: 7,
@@ -64,8 +71,27 @@ const styles = StyleSheet.create({
   img: {
     flex: 1,
   },
-  go: {
+  goConatiner: {
     flex: 3,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  go:{
+    backgroundColor: '#ff5722',
+    borderColor: '#ff5722',
+    borderWidth: 1,
+    height: 70,
+    width: 70,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    }
   }
 });
 
