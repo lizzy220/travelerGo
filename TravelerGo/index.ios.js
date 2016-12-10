@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import HomeScreen from './homeScreen';
 import CameraPictureScreen from './cameraPicture';
+import PictureGo from './pictureGo';
 
 export default class TravelerGo extends Component {
 
@@ -29,6 +30,8 @@ export default class TravelerGo extends Component {
                         return <HomeScreen navigator={navigator}/>
                       case 'cameraPicture':
                         return <CameraPictureScreen navigator={navigator} image={route.image}/>
+                      case 'pictureGo':
+                        return <PictureGo navigator={navigator}/>
                     }
                   }
                 }
