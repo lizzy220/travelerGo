@@ -38,7 +38,7 @@ export default class PictureGo extends Component {
     return(
       <View style={styles.container}>
         <View style={styles.backContainer}>
-          <Button info onPress={this.backHome} style={{backgroundColor: 'transparent'}} color='red'>
+          <Button info onPress={this.backHome} style={{backgroundColor: 'transparent'}} color='black'>
             Back
             <Icon name='ios-arrow-back' />
           </Button>
@@ -67,12 +67,15 @@ const styles = StyleSheet.create({
   },
   imgContainer: {
     flex: 7,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   img: {
-    flex: 1,
+    height: 400,
   },
   goConatiner: {
-    flex: 3,
+    flex: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
