@@ -61,14 +61,6 @@ export default class HomeScreen extends Component {
                         <Thumbnail onPressCamera={this.onPressCamera}/>
                         {/* <Text onPress={this.clickPicture} >pic</Text> */}
                     </View>
-                    <View style={styles.bottom_functions}>
-                        <Button
-                          onPress={this.onPressCamera}
-                          title="camera"
-                          color="#841584"
-                          accessibilityLabel="open camera"
-                          />
-                    </View>
                 </View>
             </View>
         );
@@ -87,10 +79,6 @@ const styles = StyleSheet.create({
         flex: 10,
         backgroundColor: 'skyblue',
     },
-    bottom_functions: {
-        flex: 1,
-        backgroundColor: 'steelblue',
-    }
 });
 
 AppRegistry.registerComponent('HomeScreen', () => HomeScreen);
