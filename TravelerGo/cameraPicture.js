@@ -53,13 +53,13 @@ const styles = StyleSheet.create({
   funcContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: 'blue',
+    backgroundColor: '#42A5F5',
     alignItems: 'center',
   },
   func: {
     flex: 1,
     color: '#fff',
-    fontSize: 25,
+    fontSize: 20,
     textAlign: 'center',
   },
   img:{

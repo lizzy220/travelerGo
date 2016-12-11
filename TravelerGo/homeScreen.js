@@ -14,37 +14,15 @@ import {
     StatusBar,
     Button,
     Image,
+    ScrollView,
 } from 'react-native';
 
-import ImagePicker from 'react-native-image-picker';
 import WeatherHeader from './index_components/weather_header';
 import Thumbnail from './index_components/thumbnail';
 
 export default class HomeScreen extends Component {
     constructor(props){
       super(props);
-      this.onPressCamera=this.onPressCamera.bind(this);
-      {/* this.clickPicture=this.clickPicture.bind(this); */}
-    }
-    onPressCamera(){
-      var self = this;
-      var options = {
-        storageOptions: {
-          skipBackup: true,
-          path: 'images',
-          cameraRoll: true,
-        },
-      };
-      ImagePicker.launchCamera(options, (response) => {
-          if(!response.didCancel){
-            self.props.navigator.push({title: 'cameraPicture', image: response});
-          }
-      });
-    }
-
-    clickPicture(){
-      console.log('clickPicture');
-      this.props.navigator.push({title: 'pictureGo'});
     }
 
     render() {
@@ -58,8 +36,7 @@ export default class HomeScreen extends Component {
                     <StatusBar hidden={true} />
                     <WeatherHeader style={styles.weather_header} />
                     <View style={styles.nearby_posts}>
-                        <Thumbnail onPressCamera={this.onPressCamera}/>
-                        {/* <Text onPress={this.clickPicture} >pic</Text> */}
+                        <Thumbnail onPressCamera={this.onPressCamera} navigator={this.props.navigator}/>
                     </View>
                 </View>
             </View>
