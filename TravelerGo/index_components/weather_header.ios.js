@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import {View, Text, Navigator, StyleSheet, Image } from 'react-native'
 import { Container, Content, Icon} from 'native-base';
+const { BlurView, VibrancyView } = require('react-native-blur');
 
 export default class WeatherHeader extends Component {
     state = {
@@ -112,42 +113,65 @@ export default class WeatherHeader extends Component {
             }
         }
         return (
-            <View style={styles.container}>
+            //<View style={styles.container}>
+              //<Icon name={icon_name} style={styles.weather_icon}/>
+                //<View style={styles.weather}>
+                  // <Text style={styles.location_name}>
+                    //{location}
+                    //</Text>
+                    //<Text style={styles.weather_desc}>
+                    //{weather_desc}  {this.state.weather_cur_temp}
+                    //</Text>
+                    //<Text style={styles.weather_temp_range}>
+                    //{this.state.weather_temp_range}
+                    //</Text>
+                //</View>
+            //</View>
+            <Image source={require('../bg.jpg')} style={styles.container}>
+               <BlurView blurType="dark" blurAmount={5} style={styles.container}>
                 <Icon name={icon_name} style={styles.weather_icon}/>
                 <View style={styles.weather}>
-                    <Text style={styles.location_name}>
-                    {location}
-                    </Text>
-                    <Text style={styles.weather_desc}>
+                <Text style={styles.location_name}>{location}</Text>
+                <Text style={styles.weather_desc}>
                     {weather_desc}  {this.state.weather_cur_temp}
-                    </Text>
-                    <Text style={styles.weather_temp_range}>
+                </Text>
+                <Text style={styles.weather_temp_range}>
                     {this.state.weather_temp_range}
-                    </Text>
+                </Text>
                 </View>
-            </View>
+                </BlurView>
+            </Image>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    //backgroundImage:{
+    //  resizeMode: 'cover',
+    //  width:null,
+    //  height:null,
+    //},
     container: {
-        flex: 2.5,
-        backgroundColor: 'powderblue',
+        flex: 2,
+        width: null,
+        height: null,
+        backgroundColor: 'transparent',
         flexDirection: 'row',
         justifyContent: 'space-around',
-        alignItems: 'flex-start',
+        alignItems: 'stretch',
     },
     weather_icon: {
         fontSize: 100,
         color: 'white',
         paddingLeft: 2,
+        fontStyle: 'italic',
     },
     location_name: {
         fontSize: 35,
         paddingTop: 10,
         color: 'white',
         fontWeight: 'bold',
+        fontFamily: 'Cochin',
     },
     weather: {
         flexDirection: 'column',
@@ -156,11 +180,16 @@ const styles = StyleSheet.create({
         paddingRight: 2,
     },
     weather_desc: {
-        fontSize: 25,
+        fontSize: 18,
         color: 'white',
+        fontFamily: 'Cochin',
+        fontWeight: 'bold',
     },
     weather_temp_range: {
-        fontSize: 20,
+        fontSize: 15,
         color: 'white',
+        fontFamily: 'Cochin',
+        fontStyle: 'italic',
+        fontWeight: 'bold',
     }
 });
