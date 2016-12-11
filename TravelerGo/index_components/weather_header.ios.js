@@ -113,20 +113,6 @@ export default class WeatherHeader extends Component {
             }
         }
         return (
-            //<View style={styles.container}>
-              //<Icon name={icon_name} style={styles.weather_icon}/>
-                //<View style={styles.weather}>
-                  // <Text style={styles.location_name}>
-                    //{location}
-                    //</Text>
-                    //<Text style={styles.weather_desc}>
-                    //{weather_desc}  {this.state.weather_cur_temp}
-                    //</Text>
-                    //<Text style={styles.weather_temp_range}>
-                    //{this.state.weather_temp_range}
-                    //</Text>
-                //</View>
-            //</View>
             <Image source={require('../bg.jpg')} style={styles.container}>
                <BlurView blurType="dark" blurAmount={5} style={styles.container}>
                 <Icon name={icon_name} style={styles.weather_icon}/>
@@ -146,11 +132,6 @@ export default class WeatherHeader extends Component {
 }
 
 const styles = StyleSheet.create({
-    //backgroundImage:{
-    //  resizeMode: 'cover',
-    //  width:null,
-    //  height:null,
-    //},
     container: {
         flex: 2,
         width: null,
