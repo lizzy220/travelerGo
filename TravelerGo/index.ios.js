@@ -17,6 +17,7 @@ import {
 import HomeScreen from './homeScreen';
 import CameraPictureScreen from './cameraPicture';
 import PictureGo from './pictureGo';
+import MyPhoto from './myPhoto';
 
 export default class TravelerGo extends Component {
 
@@ -32,6 +33,8 @@ export default class TravelerGo extends Component {
                         return <CameraPictureScreen navigator={navigator} image={route.image}/>
                       case 'pictureGo':
                         return <PictureGo navigator={navigator}/>
+                      case 'myPhoto':
+                        return <MyPhoto navigator={navigator} />
                     }
                   }
                 }

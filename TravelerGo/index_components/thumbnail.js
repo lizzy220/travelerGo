@@ -109,7 +109,7 @@ export default class ThumbNail extends Component {
                 </Modal>
             </View>
             <ScrollView style={{flex: 1}}>
-              {scrollItems.map((item)=>item)}
+              {scrollItems}
             </ScrollView>
             <ActionButton buttonColor="rgba(231,76,60,1)" >
             <ActionButton.Item buttonColor='#3498db' title="Camera" onPress={this.onPressCamera}>
@@ -118,7 +118,7 @@ export default class ThumbNail extends Component {
             <ActionButton.Item buttonColor='#1abc9c' title="Upload" onPress={() => {}}>
             <Icon name="md-photos" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#9CCC65' title="My Photo" onPress={() => {}}>
+            <ActionButton.Item buttonColor='#9CCC65' title="My Photo" onPress={() => {this.props.navigator.push({title: 'myPhoto'})}}>
             <Icon name="md-person" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#9b59b6' title="Set Range" onPress={() => this.setModalVisible(true)}>
@@ -139,43 +139,43 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   thumbNailContainer: {
-          flex:1,
-          backgroundColor: '#f3f3f3'
-      },
-      modalContainer: {
-          backgroundColor: '#ffffff',
-          marginTop: 250,
-          padding: 20,
-          borderRadius: 4,
-          shadowColor: "#000000",
-          shadowOpacity: 0.5,
-          shadowRadius: 4,
-          shadowOffset: {
-              height: 4,
-              width: 4
-          }
-      },
-      withShadow: {
-          height: 200,
-          width: 200,
-        	backgroundColor: 'grey',
-          borderRadius: 3,
-          shadowColor: "#000000",
-          shadowOpacity: 0.8,
-          shadowRadius: 2,
-          shadowOffset: {
-              height: 4,
-              width: 4
-          }
-      },
-      titleText: {
-          fontSize: 15,
-          fontWeight: 'bold',
-          paddingBottom: 10
-      },
-      baseText: {
-          fontFamily: 'Cochin',
-      },
+    flex:1,
+    backgroundColor: '#f3f3f3'
+  },
+  modalContainer: {
+    backgroundColor: '#ffffff',
+    marginTop: 250,
+    padding: 20,
+    borderRadius: 4,
+    shadowColor: "#000000",
+    shadowOpacity: 0.5,
+    shadowRadius: 4,
+    shadowOffset: {
+      height: 4,
+      width: 4
+    }
+  },
+  withShadow: {
+    height: 200,
+    width: 200,
+    backgroundColor: 'grey',
+    borderRadius: 3,
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 4,
+      width: 4
+    }
+  },
+  titleText: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    paddingBottom: 10
+  },
+  baseText: {
+    fontFamily: 'Cochin',
+  },
   scrollItemContainer: {
     flexDirection: 'row',
   },
