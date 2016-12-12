@@ -9,6 +9,7 @@ import {
   View,
   Image,
   Linking,
+  ScrollView,
 } from 'react-native';
 import {Button, Icon} from 'native-base';
 
@@ -43,9 +44,14 @@ export default class PictureGo extends Component {
             <Icon name='ios-arrow-back' />
           </Button>
         </View>
-        <View style={styles.imgContainer}>
+        <ScrollView style={styles.imgContainer}
+          horizontal={true}
+          bouncesZoom={true}
+          centerContent={true}
+          contentContainerStyle={{alignItems:'center'}}
+          maximumZoomScale={1.5}>
           <Image style={styles.img} source={require('./place_holder_cat.jpg')} />
-        </View>
+        </ScrollView>
         <View style={styles.goConatiner}>
         <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
             <Text style={{fontSize: 35, color: 'white'}}>Go</Text>
@@ -56,6 +62,7 @@ export default class PictureGo extends Component {
   }
 }
 
+const windowWidth=Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -66,13 +73,13 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   imgContainer: {
-    flex: 7,
+    height: 400,
+    width: windowWidth,
     backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   img: {
-    height: 400,
+    width: windowWidth,
+    height: 350,
   },
   goConatiner: {
     flex: 2,
