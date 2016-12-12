@@ -44,18 +44,19 @@ export default class PictureGo extends Component {
             <Icon name='ios-arrow-back' />
           </Button>
         </View>
-        <ScrollView style={styles.imgContainer}
+        <View style={styles.imgContainer}>
+        <ScrollView style={{paddingTop:50}}
           horizontal={true}
           bouncesZoom={true}
-          centerContent={true}
-          contentContainerStyle={{alignItems:'center'}}
           maximumZoomScale={1.5}>
-          <Image style={styles.img} source={require('./place_holder_cat.jpg')} />
+          <Image style={styles.img} source={require('./place_holder_cat.jpg')}/>
         </ScrollView>
+        <Text style={{color:'white', height:50}}>a great place</Text>
+        </View>
         <View style={styles.goConatiner}>
-        <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
+          <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
             <Text style={{fontSize: 35, color: 'white'}}>Go</Text>
-        </TouchableHighlight>
+          </TouchableHighlight>
         </View>
       </View>
     );
@@ -66,6 +67,7 @@ const windowWidth=Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection:'column',
   },
   backContainer: {
     flex: 1,
@@ -73,13 +75,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   imgContainer: {
-    height: 400,
-    width: windowWidth,
     backgroundColor: 'black',
   },
   img: {
+    height:350,
     width: windowWidth,
-    height: 350,
   },
   goConatiner: {
     flex: 2,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0
     }
-  }
+  },
 });
 
 AppRegistry.registerComponent('PictureGo', () => PictureGo);

@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   View,
   Image,
+  TextInput,
 } from 'react-native';
 
 export default class CameraPictureScreen extends Component {
@@ -32,8 +33,16 @@ export default class CameraPictureScreen extends Component {
       return(
         <View style={styles.container}>
           <View style={styles.picContainer}>
-            <Image source={source} style={styles.img}/>
+            <Image source={source} style={styles.img} />
           </View>
+          <TextInput style={styles.textinput}
+            {...this.props}
+            editable = {true}
+            maxLength = {150}
+            multiline = {true}
+            numberOfLines = {2}
+            placeholder={'Brief description (optional)'}
+          />
           <View style={styles.funcContainer}>
             <Text style={styles.func} onPress={this.cancel}>Cancel</Text>
             <Text style={styles.func} onPress={this.upload}>Upload</Text>
@@ -53,8 +62,15 @@ const styles = StyleSheet.create({
     flex: 9,
     justifyContent: 'center',
   },
+  textinput:{
+    flex:1,
+    width: windowWidth*0.9,
+    backgroundColor:'white',
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
   funcContainer: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
     alignItems: 'center',
   },
