@@ -25,8 +25,8 @@ export default class TravelerGo extends Component {
     render() {
         return (
             <Navigator
-                //initialRoute={{title:'homeScreen',}}
-                initialRoute={{title:'loginPage',}}
+                initialRoute={{title:'homeScreen',}}
+                //initialRoute={{title:'loginPage',}}
                 renderScene={(route, navigator) =>{
                     switch (route.title) {
                       case 'loginPage':
