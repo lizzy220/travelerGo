@@ -19,6 +19,7 @@ import CameraPictureScreen from './cameraPicture';
 import PictureGo from './pictureGo';
 import MyPhoto from './myPhoto';
 import LoginPage from './loginPage';
+import SignUp from './signupPage';
 
 export default class TravelerGo extends Component {
 
