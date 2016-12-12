@@ -9,6 +9,7 @@ import {
   View,
   Image,
   Linking,
+  ScrollView,
 } from 'react-native';
 import {Button, Icon} from 'native-base';
 
@@ -44,21 +45,29 @@ export default class PictureGo extends Component {
           </Button>
         </View>
         <View style={styles.imgContainer}>
-          <Image style={styles.img} source={require('./place_holder_cat.jpg')} />
+        <ScrollView style={{paddingTop:50}}
+          horizontal={true}
+          bouncesZoom={true}
+          maximumZoomScale={1.5}>
+          <Image style={styles.img} source={require('./place_holder_cat.jpg')}/>
+        </ScrollView>
+        <Text style={{color:'white', height:50}}>a great place</Text>
         </View>
         <View style={styles.goConatiner}>
-        <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
+          <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
             <Text style={{fontSize: 35, color: 'white'}}>Go</Text>
-        </TouchableHighlight>
+          </TouchableHighlight>
         </View>
       </View>
     );
   }
 }
 
+const windowWidth=Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    flexDirection:'column',
   },
   backContainer: {
     flex: 1,
@@ -66,13 +75,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   imgContainer: {
-    flex: 7,
     backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   img: {
-    height: 400,
+    height:350,
+    width: windowWidth,
   },
   goConatiner: {
     flex: 2,
@@ -95,7 +102,7 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0
     }
-  }
+  },
 });
 
 AppRegistry.registerComponent('PictureGo', () => PictureGo);

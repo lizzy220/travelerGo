@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   View,
   Image,
+  TextInput,
 } from 'react-native';
 
 export default class CameraPictureScreen extends Component {
@@ -32,8 +33,16 @@ export default class CameraPictureScreen extends Component {
       return(
         <View style={styles.container}>
           <View style={styles.picContainer}>
-            <Image source={source} style={styles.img}/>
+            <Image source={source} style={styles.img} />
           </View>
+          <TextInput style={styles.textinput}
+            {...this.props}
+            editable = {true}
+            maxLength = {150}
+            multiline = {true}
+            numberOfLines = {2}
+            placeholder={'Brief description (optional)'}
+          />
           <View style={styles.funcContainer}>
             <Text style={styles.func} onPress={this.cancel}>Cancel</Text>
             <Text style={styles.func} onPress={this.upload}>Upload</Text>
@@ -43,28 +52,37 @@ export default class CameraPictureScreen extends Component {
     }
 }
 
+const windowWidth=Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black',
   },
   picContainer: {
     flex: 9,
+    justifyContent: 'center',
+  },
+  textinput:{
+    flex:1,
+    width: windowWidth*0.9,
+    backgroundColor:'white',
+    borderRadius: 5,
+    alignSelf: 'center',
   },
   funcContainer: {
-    flex: 1,
+    flex: 2,
     flexDirection: 'row',
-    backgroundColor: '#42A5F5',
     alignItems: 'center',
   },
   func: {
     flex: 1,
-    color: '#fff',
+    color: 'white',
     fontSize: 20,
     textAlign: 'center',
   },
   img:{
-    width: 300,
-    height: 400,
+    width: windowWidth,
+    height: 350,
   }
 });
 

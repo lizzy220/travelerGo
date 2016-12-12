@@ -62,7 +62,14 @@ export default class ThumbNail extends Component {
       for(var i=0, j= 0; i < rows; i++){
         ret.push(
           <View key={i} style={styles.scrollItemContainer}>
-            {images.slice(j, j+2).map((image) => <TouchableHighlight key={j++} style={styles.imageTouch} onPress={this.clickPicture}><Image style={styles.image} source={require('../place_holder_cat.jpg')}/></TouchableHighlight>)}
+            {images.slice(j, j+2).map((image) =>
+              <TouchableHighlight key={j++} style={styles.imageTouch} onPress={this.clickPicture}>
+                <Image style={styles.image} source={require('../place_holder_cat.jpg')}>
+                  <View style={styles.description}>
+                    <Text style={{color: 'white'}}>a great place</Text>
+                  </View>
+                </Image>
+              </TouchableHighlight>)}
           </View>
         );
       }
@@ -70,7 +77,13 @@ export default class ThumbNail extends Component {
       if(remain === 1){
         ret.push(
           <View key={rows} style={styles.scrollItemContainer}>
-            <TouchableHighlight key={length-1} style={styles.imageTouch} onPress={this.clickPicture}><Image style={styles.image} source={require('../place_holder_cat.jpg')}/></TouchableHighlight>
+            <TouchableHighlight key={length-1} style={styles.imageTouch} onPress={this.clickPicture}>
+              <Image style={styles.image} source={require('../place_holder_cat.jpg')}>
+                <View style={styles.description}>
+                  <Text style={{color: 'white'}}>a great place</Text>
+                </View>
+              </Image>
+            </TouchableHighlight>
             <View style={styles.image}/>
           </View>
         );
@@ -99,10 +112,11 @@ export default class ThumbNail extends Component {
                             minimumValue={0.5}
                             maximumValue={3}
                             step={0.5}
+                            minimumTrackTintColor='rgba(231,76,60,1)'
                             onValueChange={(value) => this.setState({distance: value})} />
                             <Button onPress={() => {
                                 this.setModalVisible(false)
-                            } } style={{alignSelf: 'center', paddingTop: 5}}> OK </Button>
+                            } } style={{alignSelf: 'center', paddingTop: 5, backgroundColor: 'rgba(231,76,60,1)'}}> OK </Button>
                             </View>
                         </View>
                     </View>
@@ -146,7 +160,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginTop: 250,
     padding: 20,
-    borderRadius: 4,
+    borderRadius: 10,
     shadowColor: "#000000",
     shadowOpacity: 0.5,
     shadowRadius: 4,
@@ -171,6 +185,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 15,
     fontWeight: 'bold',
+    alignSelf: 'center',
     paddingBottom: 10
   },
   baseText: {
@@ -188,5 +203,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flex:1,
     height:windowWidth*0.5,
-  }
+    backgroundColor:'transparent',
+  },
+  description: {
+    minHeight:50,
+    backgroundColor:'rgba(255,255,255,0.4)',
+    position:'absolute',
+    bottom:0,
+    right: 0,
+    left: 0,
+    borderTopWidth:0.5,
+    borderTopColor:'rgba(255,255,255,0.6)',
+  },
 });

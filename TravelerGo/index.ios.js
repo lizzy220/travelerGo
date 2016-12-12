@@ -29,6 +29,8 @@ export default class TravelerGo extends Component {
                 //initialRoute={{title:'loginPage',}}
                 renderScene={(route, navigator) =>{
                     switch (route.title) {
+                      case 'loginPage':
+                        return <LoginPage />
                       case 'homeScreen':
                         return <HomeScreen navigator={navigator}/>
                       case 'cameraPicture':
