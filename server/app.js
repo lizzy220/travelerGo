@@ -17,25 +17,13 @@ var app = express();
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/', routes);
 app.use('/api', api);
-
-var reactBase = path.resolve(__dirname, '../client/build')
-if (!fs.existsSync(reactBase)) {
-  throw 'TODO, need to `npm run build` in client dir'
-}
-app.use('/static', express.static(path.join(reactBase, 'static')));
-// app.use(express.static(reactBase));
-var indexFile = path.join(reactBase, 'index.html')
-app.use(function(req, res, next) {
-  // TODO - catch errors http://expressjs.com/en/api.html#res.sendFile
-  res.sendFile(indexFile);
-});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

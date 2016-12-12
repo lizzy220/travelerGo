@@ -8,8 +8,18 @@ var isEmpty = require('lodash/isEmpty');
 var bcrypt = require('bcrypt');
 var jwt = require('jsonwebtoken');
 
-router.use(bodyParser.json()); // support json encoded bodies
-router.use(bodyParser.urlencoded({ extended: true }));
+router.use(bodyParser.json({limit: '50mb'})); // support json encoded bodies
+router.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
+
+var imageCache = {}
+
+function insertImage(record, callback){
+    var insertImage = function(err, db){
+        db.collection('Image').insert(record, callback)
+        db.close();
+    }
+    mongo.connect(insertImage);
+}
 
 function insertdb(collection, record, callback){
     var insertUser = function(err,db){
@@ -95,6 +105,40 @@ function getdbById(collection, id, callback) {
     return mongo.connect(getResults);
 }
 
+router.post('/uploadImage', function(req, res) {
+    var data = req.body
+    insertImage(data, function(err, img) {
+        if (!err) {
+            console.log('Saved an image')
+            res.status(200);
+        } else {
+            console.log('Save image failed')
+            res.status(400);
+        }
+    })
+});
+
+router.get('/image/:id', function(req, res) {
+    // if (req.params.id in imageCache) {
+    //     var img = imageCache[req.params.id]
+    //     res.writeHead(200, {
+    //      'Content-Type': 'image/jpeg',
+    //      'Content-Length': img.length
+    //     });
+    //     res.end(img);
+    // } else {
+        getdbById('Image', req.params.id, function(image) {
+            if (image) {
+                res.json({'image':image})
+            } else {
+                res.status(400);
+            }
+        });
+    // }
+});
+
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++ \\
+
 router.get('/articles/search/:searchKey', function(req, res) {
     getdbBySearchKey('Article', req.params.searchKey, function(articles) {
         res.json(articles)
@@ -128,6 +172,7 @@ router.post('/articles/article/:id', function(req, res) {
         });
     });
 });
+
 
 router.post('/newDescription/:id', function(req, res){
   updatedb('Article', {'_id': ObjectId(req.params.id)}, {$set: {'description': req.body.description}}, function(err, user) {
