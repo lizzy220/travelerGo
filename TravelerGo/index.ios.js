@@ -18,6 +18,7 @@ import HomeScreen from './homeScreen';
 import CameraPictureScreen from './cameraPicture';
 import PictureGo from './pictureGo';
 import MyPhoto from './myPhoto';
+import LoginPage from './loginPage';
 
 export default class TravelerGo extends Component {
 
@@ -25,6 +26,7 @@ export default class TravelerGo extends Component {
         return (
             <Navigator
                 initialRoute={{title:'homeScreen',}}
+                //initialRoute={{title:'loginPage',}}
                 renderScene={(route, navigator) =>{
                     switch (route.title) {
                       case 'homeScreen':
