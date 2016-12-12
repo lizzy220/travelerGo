@@ -99,10 +99,11 @@ export default class ThumbNail extends Component {
                             minimumValue={0.5}
                             maximumValue={3}
                             step={0.5}
+                            minimumTrackTintColor='rgba(231,76,60,1)'
                             onValueChange={(value) => this.setState({distance: value})} />
                             <Button onPress={() => {
                                 this.setModalVisible(false)
-                            } } style={{alignSelf: 'center', paddingTop: 5}}> OK </Button>
+                            } } style={{alignSelf: 'center', paddingTop: 5, backgroundColor: 'rgba(231,76,60,1)'}}> OK </Button>
                             </View>
                         </View>
                     </View>
@@ -146,7 +147,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     marginTop: 250,
     padding: 20,
-    borderRadius: 4,
+    borderRadius: 10,
     shadowColor: "#000000",
     shadowOpacity: 0.5,
     shadowRadius: 4,
@@ -171,6 +172,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 15,
     fontWeight: 'bold',
+    alignSelf: 'center',
     paddingBottom: 10
   },
   baseText: {

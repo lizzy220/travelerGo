@@ -43,28 +43,30 @@ export default class CameraPictureScreen extends Component {
     }
 }
 
+const windowWidth=Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'black',
   },
   picContainer: {
     flex: 9,
+    justifyContent: 'center',
   },
   funcContainer: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#42A5F5',
     alignItems: 'center',
   },
   func: {
     flex: 1,
-    color: '#fff',
+    color: 'white',
     fontSize: 20,
     textAlign: 'center',
   },
   img:{
-    width: 300,
-    height: 400,
+    width: windowWidth,
+    height: 350,
   }
 });
 

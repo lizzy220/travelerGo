@@ -73,11 +73,11 @@ export default class MyPhoto extends Component {
     return(
       <View style={styles.container}>
         <View style={styles.header}>
-          <Button info onPress={this.backHome} style={{backgroundColor: 'transparent'}} color='black'>
+          <Button info onPress={this.backHome} style={{backgroundColor: 'transparent'}} color='white'>
             Back
             <Icon name='ios-arrow-back' />
           </Button>
-          <Button info style={{backgroundColor: 'transparent'}} color='black' onPress={this.selectOrCancel}>
+          <Button info style={{backgroundColor: 'transparent'}} color='white' onPress={this.selectOrCancel}>
             {this.state.canSelect? 'Cancel' : 'Select'}
           </Button>
         </View>
@@ -85,7 +85,7 @@ export default class MyPhoto extends Component {
           {scrollItems}
         </View>
         <View style={styles.footer}>
-          <Icon name='ios-trash-outline' onPress={this.deletePhotos} />
+          <Icon name='ios-trash' onPress={this.deletePhotos} style={{color: 'white'}}/>
         </View>
       </View>
     );
@@ -119,7 +119,7 @@ class Photo extends Component {
           <TouchableHighlight style={styles.imageTouch} onPress={this.clickPicture}>
             <Image blurRadius={3} style={styles.image} source={require('./place_holder_cat.jpg')}/>
           </TouchableHighlight>
-          <Icon color='green' name='ios-checkmark-circle' style={{position: 'absolute', bottom: 2, right: 4}}/>
+          <Icon color='#9CCC65' name='ios-checkmark-circle' style={{position: 'absolute', bottom: 2, right: 4}}/>
         </View>
       );
     }else{
@@ -143,18 +143,20 @@ const styles=StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: 'grey',
+    backgroundColor:'#9CCC65',
+    borderBottomColor: '#F5FCFF',
+    borderBottomWidth: 1,
   },
   body: {
     flex: 12,
   },
   footer: {
     flex: 1,
-    backgroundColor: 'grey',
     flexDirection: 'row',
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingRight: 10,
+    backgroundColor:'#9CCC65',
   },
   scrollItemContainer: {
     flexDirection: 'row',
