@@ -8,8 +8,10 @@ import {
     Image,
     AppRegistry,
 } from 'react-native';
+import {Button, InputGroup, Input} from 'native-base'
 const Dimensions = require('Dimensions');
 const windowSize = Dimensions.get('window');
+const { BlurView, VibrancyView } = require('react-native-blur');
 
 export default class LoginPage extends Component {
   state = {
@@ -18,36 +20,29 @@ export default class LoginPage extends Component {
   };
   render(){
     return (
-            <Image source={require('./loginbg.jpg')} style={styles.container} >
-            <Text> test </Text>
-            <View style={styles.inputs}>
+            <Image source={require('./loginbg.jpg')} style={styles.container}>
+            <BlurView blurType="dark" blurAmount={0} style={styles.container}>
+            <Text style={styles.header}>TravelerGo</Text>
                 <View style={styles.inputContainer}>
-                    <TextInput
-                        style={[styles.input, styles.whiteFont]}
-                        placeholder="Username"
-                        placeholderTextColor="#FFF"
-                        value={this.state.username}
-                    />
+                    <InputGroup borderType='rounded'>
+                      <Input placeholder='Username'/>
+                    </InputGroup>
                 </View>
                 <View style={styles.inputContainer}>
-                    <TextInput
-                        password={true}
-                        style={[styles.input, styles.whiteFont]}
-                        placeholder="Pasword"
-                        placeholderTextColor="#FFF"
-                        value={this.state.password}
-                    />
+                <InputGroup borderType='rounded'>
+                  <Input placeholder='Password'/>
+                </InputGroup>
                 </View>
                 <View style={styles.forgotContainer}>
-                    <Text style={styles.greyFont}>Forgot Password</Text>
+                    <Button block info>Forgot Password</Button>
                 </View>
-            </View>
             <View style={styles.signin}>
-                <Text style={styles.whiteFont}>Sign In</Text>
+                <Button block success>Sign In</Button>
             </View>
             <View style={styles.signup}>
-                <Text style={styles.greyFont}>No account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
+                <Text style={styles.whiteFont}>No account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
             </View>
+            </BlurView>
             </Image>
 
     )
@@ -64,27 +59,21 @@ const styles = StyleSheet.create({
       width: null,
       height: null,
     },
-    bg: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-        width: windowSize.width,
-        height: windowSize.height
-    },
     header: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: .5,
-        backgroundColor: 'transparent'
+        fontSize: 35,
+        paddingTop: 150,
+        paddingLeft: 100,
+        color: 'white',
+        fontWeight: 'bold',
+        fontFamily: 'Cochin',
     },
     mark: {
         width: 150,
         height: 150
     },
     signin: {
-        backgroundColor: '#FF3366',
-        padding: 20,
-        alignItems: 'center'
+      alignItems: 'flex-end',
+      padding: 15,
     },
     signup: {
       justifyContent: 'center',
@@ -96,29 +85,11 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         flex: .25
     },
-    inputPassword: {
-        marginLeft: 15,
-        width: 20,
-        height: 21
-    },
-    inputUsername: {
-      marginLeft: 15,
-      width: 20,
-      height: 20
-    },
     inputContainer: {
         padding: 10,
         borderWidth: 1,
-        borderBottomColor: '#CCC',
-        borderColor: 'transparent'
-    },
-    input: {
-        position: 'absolute',
-        left: 61,
-        top: 12,
-        right: 0,
-        height: 20,
-        fontSize: 14
+        borderColor: 'transparent',
+        alignItems: 'center'
     },
     forgotContainer: {
       alignItems: 'flex-end',
