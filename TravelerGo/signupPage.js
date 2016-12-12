@@ -8,13 +8,12 @@ import {
     Image,
     AppRegistry,
 } from 'react-native';
-import { Link } from 'react-router'
 import {Button, InputGroup, Input, Icon} from 'native-base'
 const Dimensions = require('Dimensions');
 const windowSize = Dimensions.get('window');
 const { BlurView, VibrancyView } = require('react-native-blur');
 
-export default class LoginPage extends Component {
+export default class SignUp extends Component {
   state = {
       username: '',
       password: '',
@@ -36,15 +35,9 @@ export default class LoginPage extends Component {
                   <Input placeholder='Password' placeholderTextColor='white'/>
                 </InputGroup>
                 </View>
-                <View style={styles.forgotContainer}>
-                    <Text style={styles.whiteFont}>Forgot password?</Text>
+                <View style={styles.signup}>
+                    <Button block success>Sign Up</Button>
                 </View>
-                <View style={styles.signin}>
-                    <Button block success>Sign In</Button>
-                </View>
-            <View style={styles.signup}>
-                <Text style={styles.whiteFont}>No account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
-            </View>
             </BlurView>
             </Image>
 
@@ -74,14 +67,9 @@ const styles = StyleSheet.create({
         width: 150,
         height: 150
     },
-    signin: {
+    signup: {
       alignItems: 'flex-end',
       padding: 15,
-    },
-    signup: {
-      justifyContent: 'center',
-      alignItems: 'center',
-      flex: .15
     },
     inputs: {
         marginTop: 10,
@@ -94,10 +82,6 @@ const styles = StyleSheet.create({
         borderColor: 'transparent',
         alignItems: 'center'
     },
-    forgotContainer: {
-      alignItems: 'flex-end',
-      padding: 5,
-    },
     greyFont: {
       color: '#D8D8D8'
     },
@@ -106,4 +90,4 @@ const styles = StyleSheet.create({
     }
 });
 
-AppRegistry.registerComponent('LoginPage', () => LoginPage);
+AppRegistry.registerComponent('SignUp', () => SignUp);
