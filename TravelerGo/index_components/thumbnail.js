@@ -129,8 +129,8 @@ export default class ThumbNail extends Component {
             <ActionButton.Item buttonColor='#3498db' title="Camera" onPress={this.onPressCamera}>
             <Icon name="md-camera" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#1abc9c' title="Upload" onPress={() => {}}>
-            <Icon name="md-photos" style={styles.actionButtonIcon} />
+            <ActionButton.Item buttonColor='#1abc9c' title="Refresh" onPress={() => {}}>
+            <Icon name="md-refresh" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#9CCC65' title="My Photo" onPress={() => {this.props.navigator.push({title: 'myPhoto'})}}>
             <Icon name="md-person" style={styles.actionButtonIcon} />

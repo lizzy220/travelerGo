@@ -9,7 +9,10 @@ import {
   View,
   Image,
   TextInput,
+  KeyboardAvoidingView,
 } from 'react-native';
+
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 export default class CameraPictureScreen extends Component {
     constructor(props){
@@ -34,15 +37,14 @@ export default class CameraPictureScreen extends Component {
         <View style={styles.container}>
           <View style={styles.picContainer}>
             <Image source={source} style={styles.img} />
-          </View>
           <TextInput style={styles.textinput}
             {...this.props}
             editable = {true}
             maxLength = {150}
-            multiline = {true}
-            numberOfLines = {2}
             placeholder={'Brief description (optional)'}
           />
+          </View>
+          <KeyboardSpacer/>
           <View style={styles.funcContainer}>
             <Text style={styles.func} onPress={this.cancel}>Cancel</Text>
             <Text style={styles.func} onPress={this.upload}>Upload</Text>
@@ -56,34 +58,34 @@ const windowWidth=Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'black',
   },
   picContainer: {
     flex: 9,
     justifyContent: 'center',
   },
+  img:{
+    width: windowWidth,
+    height: 350,
+  },
   textinput:{
-    flex:1,
-    width: windowWidth*0.9,
-    backgroundColor:'white',
+    marginTop:20,
+    width: windowWidth*0.95,
     borderRadius: 5,
+    height:45,
+    borderWidth:1,
     alignSelf: 'center',
   },
   funcContainer: {
-    flex: 2,
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
   },
   func: {
     flex: 1,
-    color: 'white',
+    color: 'black',
     fontSize: 20,
     textAlign: 'center',
   },
-  img:{
-    width: windowWidth,
-    height: 350,
-  }
 });
 
 AppRegistry.registerComponent('CameraPictureScreen', () => CameraPictureScreen);
