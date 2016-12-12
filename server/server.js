@@ -82,7 +82,7 @@ app.post("/getImageByUsername", function(req, res){
       if(imageList){
           res.json(imageList);
       }else{
-          res.status(401).json({errors: { form: 'Invalid Username or Password' } });
+          res.status(400);
       }
   });
 })

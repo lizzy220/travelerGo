@@ -13,12 +13,33 @@ router.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 
 var imageCache = {}
 
-function insertImage(record, callback){
-    var insertImage = function(err, db){
-        db.collection('Image').insert(record, callback)
-        db.close();
+function getDistance(lat1, lon1, lat2, lon2, unit) {
+    var radlat1 = Math.PI * lat1/180
+    var radlat2 = Math.PI * lat2/180
+    var theta = lon1-lon2
+    var radtheta = Math.PI * theta/180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    dist = Math.acos(dist)
+    dist = dist * 180/Math.PI
+    dist = dist * 60 * 1.1515
+    if (unit=="K") { dist = dist * 1.609344 }
+    if (unit=="N") { dist = dist * 0.8684 }
+    return dist
+}
+
+
+function validateInput(data){
+    let errors = {};
+    if(Validator.isEmpty(data.username)){
+        errors.username = 'This field is required';
     }
-    mongo.connect(insertImage);
+    if(Validator.isEmpty(data.password)){
+        errors.password  = 'This field is required';
+    }
+    return{
+        errors,
+        isValid: isEmpty(errors)
+    }
 }
 
 function insertdb(collection, record, callback){
@@ -29,65 +50,30 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
-function getdb(collection, record, callback){
-    var getUser = function(err, db){
-        db.collection(collection).findOne(record, function(err, result){
+
+/**
+ * @params: lat: current latitude
+ * @params: lon: current longitude
+ * @params: distance: filter distance
+ */
+function getImageByDistance(collection, lat, lon, distance, callback){
+    var getData = function(err, db){
+        db.collection(collection).find().toArray(function(err, result){
             if (err) {
                 console.log(err);
             } else {
-                callback(result);
+                var res = { images: [] };
+                for(index in result){
+                    if( getDistance(lat, lon, result[index]['latitude'], result[index]['longitude'], "K") <= distance ){
+                       res.images.push(result[index]);
+                    }
+                }
+                callback(res);
             }
             db.close();
         });
     }
-    return mongo.connect(getUser);
-}
-
-function updatedb(collection, criteria, update, callback){
-    var user = function(err, db){
-        db.collection(collection).update(criteria, update, callback);
-        db.close();
-    }
-    mongo.connect(user);
-}
-
-
-function getdbAll(collection, callback) {
-    var getResults = function(err, db) {
-        db.collection('Article').find({"visible": true}, {title: 1}).sort({"timestamp": -1}).toArray(function(err, result){
-            if (err) {
-                console.log(err);
-            } else if (result.length) {
-                callback(result)
-            } else {
-                // console.log('No document(s) found with defined "find" criteria!');
-                callback([])
-            }
-            //Close connection
-            db.close();
-        });
-    }
-    return mongo.connect(getResults);
-}
-
-//only return array of {_id:, title:}
-function getdbBySearchKey(collection, searchKey, callback) {
-    var getResults = function(err, db) {
-        db.collection('Article').find({"title": {$regex: ".*" + searchKey + ".*"}, "visible": true}, { title: 1}).toArray(function(err, result){
-            if (err) {
-                console.log(err);
-            } else if (result.length) {
-                console.log(result);
-                callback(result)
-            } else {
-                // console.log('No document(s) found with defined "find" criteria!');
-                callback([])
-            }
-            //Close connection
-            db.close();
-        });
-    }
-    return mongo.connect(getResults);
+    return mongo.connect(getData);
 }
 
 function getdbById(collection, id, callback) {
@@ -104,6 +90,21 @@ function getdbById(collection, id, callback) {
     }
     return mongo.connect(getResults);
 }
+
+
+function insertImage(record, callback){
+    var insertImage = function(err, db){
+        db.collection('Image').insert(record, callback)
+        db.close();
+    }
+    mongo.connect(insertImage);
+}
+
+
+router.get('/test', function(req, res){
+  console.log('test1');
+});
+
 
 router.post('/uploadImage', function(req, res) {
     var data = req.body
@@ -139,197 +140,34 @@ router.get('/image/:id', function(req, res) {
 
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++ \\
 
-router.get('/articles/search/:searchKey', function(req, res) {
-    getdbBySearchKey('Article', req.params.searchKey, function(articles) {
-        res.json(articles)
-    })
-});
-
-router.get('/articles/search', function(req, res) {
-    getdbAll('Article', function(articles) {
-        if (articles) {
-            res.json(articles)
-        } else {
-            res.status(400)
-        }
-
-    })
-});
-
-router.post('/articles/article/:id', function(req, res) {
-    getdb('users', {'username': req.body.username, $or: [{'saved._id': req.params.id}, {'posts._id': req.params.id}]}, function(userInfo){
-        getdbById('Article', req.params.id, function(article) {
-            if (article) {
-                if (userInfo) {
-                    article['saved'] = true
-                } else {
-                    article['saved'] = false
-                }
-                res.json(article);
-            } else {
-                res.status(400);
-            }
-        });
-    });
-});
-
-
-router.post('/newDescription/:id', function(req, res){
-  updatedb('Article', {'_id': ObjectId(req.params.id)}, {$set: {'description': req.body.description}}, function(err, user) {
-      if (!err) {
-          res.json({'info': 'success'});
-      } else {
+router.post("/getImageByUsername", function(req, res){
+  var query = { username: req.body.username };
+  getdb('Image', query, function(imageList){
+      if(imageList){
+          res.json(imageList);
+      }else{
           res.status(400);
       }
   });
-});
-
-router.post('/articles/usercollection', function(req, res){
-    console.log(req.body.username)
-    getdb('users', {'username': req.body.username}, function(user) {
-        if (user) {
-            res.json({'posts': user.posts, 'saved': user.saved});
-        } else {
-            res.status(400);
-        }
-    });
-})
-
-router.post('/articles/save', function(req, res){
-    var data = req.body.article;
-    var username = req.body.username;
-    getdb('users', {"username": username}, function(userInfo) {
-        var saved = userInfo.saved.filter(function(article){ return article._id === data._id; });
-        if(saved.length > 0){
-            res.json({'info': 'duplicate'});
-        }else{
-            var posts = userInfo.posts.filter(function(article){ return article._id === data._id; });
-            if(posts.length > 0){
-                res.json({'info': 'duplicate'});
-            }else{
-                updatedb('users', {'username': username}, {$push: {'saved': data}}, function(err, user) {
-                    if (!err) {
-                        res.json({'info': 'success'});
-                    } else {
-                        res.status(400);
-                    }
-                });
-            }
-        }
-    });
-});
-
-router.post('/articles/delete', function(req, res){
-    var data = req.body.article;
-    var username = req.body.username;
-    getdb('users', {'username': username}, function(userInfo) {
-        if(userInfo.saved.filter(function(article){ return article._id === data._id; }).length > 0){
-            updatedb('users', {'username': username}, {$pull: {'saved': data}}, function(err, user) {
-                if (!err) {
-                    res.json({'success': 'true'});
-                } else {
-                    res.status(400);
-                }
-            });
-        }else{
-            updatedb('Article', {'_id': ObjectId(data._id)}, {$set: {"visible": false}}, function(err, user) {
-                if (!err) {
-                    updatedb('users', {'username': username}, {$pull: {'posts': data}}, function(err, user) {
-                        if (!err) {
-                            res.json({'success': 'true'});
-                        } else {
-                            res.status(400);
-                        }
-                    })}
-                else {
-                    res.status(400);
-                }
-            })
-        }
-    })
 })
 
 
-router.post("/articles/new", function(req, res) {
-    var username = req.body.username;
-    var article = req.body.article;
-    article['timestamp'] = Date.now();
-    article['visible'] = true;
-    article['tags'] = [];
-    article['comments'] = [];
-    return get_article_content(article, function(filledArticle) {
-        // console.log(article)
-        if (filledArticle) {
-            if (filledArticle['content']['url'] == '') {
-                res.status(400);
-            } else {
-                delete filledArticle['content']['additionalData']
-                delete filledArticle['content']['entities']
-                insertdb('Article', filledArticle, function(err, record) {
-                    if (!err) {
-                        console.log("Article inserted");
-                        var data = {"_id": record.ops[0]._id, "title": record.ops[0].title};
-                        updatedb('users', {'username': username}, {$push: {"posts": {"_id": record.ops[0]._id.toString(), "title": record.ops[0].title}}}, function(err, user) {
-                            if (!err) {
-                                res.json(data);
-                            } else {
-                                res.status(400);
-                            }
-                        });
-                    } else {
-                        res.status(400);
-                    }
-                });
-            }
-        }
-    })
-});
-
-router.post('/comments/new/:id', function(req, res){
-    var articleId = req.params.id;
-    var comment = req.body;
-    updatedb('Article', {'_id': ObjectId(articleId)}, {$push: {'comments': comment}}, function(err, article){
-        if(!err){
-            res.json(article);
-        }else{
-            res.status(400);
-        }
-    });
+/*
+example: filter = {"latitude": 123456, "longitude":2334567, "distance": 100}
+*/
+router.post("/getImageByDistance/:filter", function(req, res){
+  var lat = req.params.filter.latitude;
+  var lon = req.params.filter.longitude;
+  var dis = req.params.filter.distance;
+  getImageByDistance('Image', lat, lon, dis, function(imageList){
+      if(imageList){
+          res.json(imageList);
+      }else{
+          res.status(400);
+      }
+  });
 })
 
-function get_article_content(article, callback) {
-    var https = require('https');
-    return https.get({
-        host: 'shutupandgivemethecontent.herokuapp.com',
-        path: '/api/article?url=' + article['url']
-
-    }, function(response) {
-        var body = '';
-        response.on('data', function(d) {
-            body += d;
-        });
-        response.on('end', function() {
-            // Data reception is done, do whatever with it!
-            var parsed = JSON.parse(body);
-            article['content'] = parsed['article']
-            callback(article);
-        });
-    });
-};
-
-function validateInput(data){
-    let errors = {};
-    if(Validator.isEmpty(data.username)){
-        errors.username = 'This field is required';
-    }
-    if(Validator.isEmpty(data.password)){
-        errors.password  = 'This field is required';
-    }
-    return{
-        errors,
-        isValid: isEmpty(errors)
-    }
-}
 
 router.post("/users", function(req, res){
     console.log(req.body);
