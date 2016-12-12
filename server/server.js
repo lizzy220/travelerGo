@@ -11,8 +11,8 @@ var isEmpty = require('lodash/isEmpty');
 // Everything that was in the file before goes here
 app = express();
 app.set('view engine', 'ejs');
-app.use(bodyParser.json()); // support json encoded bodies
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
 var port = process.env.PORT || 3000; // For when we deploy to Heroku
 var server = app.listen(port)
 var votes = [];
@@ -56,25 +56,25 @@ function getdb(collection, record, callback){
     return mongo.connect(getUser);
 }
 
-app.post("/uploadImage", function(req, res){
-  /*
-  data should like this
-  {
-    username: string,
-    image: string,
-    longitude: string,
-    latitude: string
-  }*/
-  var data = req.body;
-  insertdb('images', data, function(err, record) {
-      // console.log(err)
-      if (!err) {
-          console.log("Image uploaded");
-      } else {
-          res.status(400);
-      }
-  });
-})
+// app.post("/uploadImage", function(req, res){
+//   /*
+//   data should like this
+//   {
+//     username: string,
+//     image: string,
+//     longitude: string,
+//     latitude: string
+//   }*/
+//   var data = req.body;
+//   insertdb('images', data, function(err, record) {
+//       // console.log(err)
+//       if (!err) {
+//           console.log("Image uploaded");
+//       } else {
+//           res.status(400);
+//       }
+//   });
+// })
 
 app.post("/getImageByUsername", function(req, res){
   var query = { username: req.body.username };
