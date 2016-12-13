@@ -1,5 +1,5 @@
 {
-  "name": "5117-module-3-assignment-template",
+  "name": "5117-module-4-assignment-template",
   "version": "0.1.0",
   "description": "intro to react",
   "dependencies": {
@@ -37,7 +37,7 @@
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/umn-5117-f16/module-3-assignment-template/issues"
+    "url": "https://github.com/umn-5117-f16/module-4-assignment-template/issues"
   },
-  "homepage": "https://github.com/umn-5117-f16/module-3-assignment-template#readme"
+  "homepage": "https://github.com/umn-5117-f16/module-4-assignment-template#readme"
 }
