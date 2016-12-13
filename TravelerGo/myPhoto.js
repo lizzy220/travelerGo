@@ -26,7 +26,7 @@ export default class MyPhoto extends Component {
   }
 
   componentDidMount(){
-    fetch('http://localhost:3001/', {
+    fetch('https://travelergo.herokuapp.com/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',

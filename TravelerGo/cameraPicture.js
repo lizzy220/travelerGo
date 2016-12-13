@@ -28,8 +28,8 @@ export default class CameraPictureScreen extends Component {
 
     upload(){
       this.props.navigator.popToTop();
-      console.log('upload image');
-      fetch('http://localhost:3001/api/uploadImage', {
+      console.log('this.props.image');
+      fetch('https://travelergo.herokuapp.com/api/uploadImage', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

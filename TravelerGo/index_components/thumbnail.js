@@ -37,7 +37,8 @@ export default class ThumbNail extends Component {
 
     getImagesByDistance(position, distance){
       console.log('getImagesWithinDistance');
-      fetch('http://localhost:3001/api/getImageWithinDistance', {
+    //   fetch('http://localhost:3001/api/getImageWithinDistance', {
+      fetch('https://travelergo.herokuapp.com/api/getImageWithinDistance', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',

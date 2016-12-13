@@ -25,7 +25,7 @@ export default class PictureGo extends Component {
   }
 
   gotoMap(){
-    const url = 'http://maps.apple.com/?ll='+this.props.image.latitude+','+this.props.image.longitude;
+    const url = 'http://maps.apple.com/?ll='+this.props.image.location.coordinates[1]+','+this.props.image.location.coordinates[0];
     Linking.canOpenURL(url).then(supported => {
       if (!supported) {
         console.log('Can\'t handle url: ' + url);

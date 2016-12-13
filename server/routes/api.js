@@ -3,7 +3,10 @@ var router = express.Router();
 var mongo = require('./mongo_connection');
 var bodyParser = require('body-parser');
 var ObjectId = require('mongodb').ObjectId;
-
+var Validator = require('validator');
+var isEmpty = require('lodash/isEmpty');
+var bcrypt = require('bcrypt');
+var jwt = require('jsonwebtoken');
 
 router.use(bodyParser.json({limit: '50mb'})); // support json encoded bodies
 router.use(bodyParser.urlencoded({limit: '50mb', extended: true }));
@@ -118,11 +121,11 @@ function getdbById(collection, id, callback) {
 
 
 function insertImage(record, callback){
-    var insertImage = function(err, db){
+    var insert = function(err, db){
         db.collection('Image').insert(record, callback)
         db.close();
     }
-    mongo.connect(insertImage);
+    return mongo.connect(insert);
 }
 
 
@@ -145,7 +148,8 @@ router.post('/uploadImage', function(req, res) {
             "type": "Point",
             "coordinates": [longitude, latitude]
         }
-    }
+    };
+    console.log(data);
 
     insertImage(data, function(err, img) {
         if (!err) {
@@ -155,7 +159,7 @@ router.post('/uploadImage', function(req, res) {
             console.log('Save image failed')
             res.status(400);
         }
-    })
+    });
 });
 
 router.get('/image/:id', function(req, res) {
@@ -208,4 +212,56 @@ router.post("/getImageWithinDistance", function(req, res){
   });
 })
 
+
+// router.post("/users", function(req, res){
+//     console.log(req.body);
+//     const { errors, isValid } = validateInput(req.body);
+//     var query = { username: req.body.username };
+//     if(isValid){
+//         getdb('users', query, function(userInfo){
+//             if(userInfo){
+//                 errors.username = 'Username already exist!';
+//                 res.status(400).json(errors);
+//             }else{
+//                 res.json({success: true});
+//                 encrypt_password = bcrypt.hashSync(req.body.password, 10);
+//                 var data = {
+//                     username: req.body.username,
+//                     password: encrypt_password,
+//                     saved: [],
+//                     posts: []
+//                 }
+//                 insertdb('users', data, function(err, record) {
+//                     // console.log(err)
+//                     if (!err) {
+//                         console.log("User inserted");
+//                     } else {
+//                         res.status(400);
+//                     }
+//                 });
+//             }
+//         });
+//     }else{
+//         res.status(400).json(errors);
+//     }
+// })
+
+// router.post("/auth", function(req, res){
+//     var data = { username: req.body.username };
+//     console.log(data);
+//     getdb('users', data, function(userInfo){
+//         if(userInfo){
+//             if(bcrypt.compareSync(req.body.password, userInfo.password)){
+//                 const token = jwt.sign({
+//                     username: userInfo.username
+//                 }, 'nothingspecial');
+//                 res.json({ token });
+//             }else{
+//                 res.status(401).json({errors: { form: 'Invalid Username or Password' } });
+//             }
+//         }else{
+//             res.status(401).json({errors: { form: 'Invalid Username or Password' } });
+//         }
+//     });
+// })
 module.exports = router;
