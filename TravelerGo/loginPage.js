@@ -7,6 +7,7 @@ import {
     View,
     Image,
     AppRegistry,
+    Navigator,
 } from 'react-native';
 import { Link } from 'react-router'
 import {Button, InputGroup, Input, Icon} from 'native-base'
@@ -19,6 +20,10 @@ export default class LoginPage extends Component {
       username: '',
       password: '',
   };
+
+  goHome(){
+    this.props.navigator.push({title: 'homeScreen'});
+  }
   render(){
     return (
             <Image source={require('./loginbg.jpg')} style={styles.container}>
@@ -40,7 +45,7 @@ export default class LoginPage extends Component {
                     <Text style={styles.whiteFont}>Forgot password?</Text>
                 </View>
                 <View style={styles.signin}>
-                    <Button block success>Sign In</Button>
+                    <Button block success onPress={this.goHome}>Sign In</Button>
                 </View>
             <View style={styles.signup}>
                 <Text style={styles.whiteFont}>No account?<Text style={styles.whiteFont}>  Sign Up</Text></Text>
