@@ -36,10 +36,12 @@ export default class CameraPictureScreen extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: 'test',
-            latitude: this.props.image.latitude,
-            longitude: this.props.image.longitude,
-            base64: this.props.image.data,
+            username: "IamNotcat",
+            location:{
+              latitude: this.props.image.latitude,
+              longitude: this.props.image.longitude,
+            },
+            image: 'data:image/jpeg;base64,'+this.props.image.data,
             description: this.state.description,
           })
       })
