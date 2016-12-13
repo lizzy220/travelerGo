@@ -168,7 +168,7 @@ router.get('/image/:id', function(req, res) {
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++ \\
 
 router.post("/getImageByUsername", function(req, res){
-  var query = { username: req.body.username };
+  var query = { "username": req.body.username };
   getdb('Image', query, function(imageList){
       if(imageList){
           res.json(imageList);
