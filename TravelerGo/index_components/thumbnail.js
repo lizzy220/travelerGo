@@ -21,7 +21,6 @@ export default class ThumbNail extends Component {
     constructor(props){
       super(props);
       this.onPressCamera=this.onPressCamera.bind(this);
-      this.clickPicture=this.clickPicture.bind(this);
       this.arrangeImages=this.arrangeImages.bind(this);
       this.getImagesByDistance=this.getImagesByDistance.bind(this);
       this.refreshImagesByDistance=this.refreshImagesByDistance.bind(this);
@@ -91,11 +90,6 @@ export default class ThumbNail extends Component {
       });
     }
 
-    clickPicture(){
-      console.log('clickPicture');
-      this.props.navigator.push({title: 'pictureGo'});
-    }
-
     arrangeImages(images){
       var length = images.length;
       var rows  = Math.floor(length / 2);
@@ -104,7 +98,9 @@ export default class ThumbNail extends Component {
         ret.push(
           <View key={i} style={styles.scrollItemContainer}>
             {images.slice(j, j+2).map((image) =>
-              <TouchableHighlight key={j++} style={styles.imageTouch} onPress={this.clickPicture}>
+              <TouchableHighlight key={j++} style={styles.imageTouch} onPress={()=>{
+                this.props.navigator.push({title: 'pictureGo', image: image});
+              }}>
                 <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + image.base64, isStatic: true}}>
                   <View style={styles.description}>
                     <Text style={{color: 'white'}}>{image.description}</Text>
