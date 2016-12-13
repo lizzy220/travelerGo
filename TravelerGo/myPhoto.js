@@ -26,14 +26,14 @@ export default class MyPhoto extends Component {
   }
 
   componentDidMount(){
-    fetch('https://travelergo.herokuapp.com/getImageByUsername', {
+    fetch('https://travelergo.herokuapp.com/api/getImageByUsername', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: "IamNotcat",
+          username: "IamNotcat"
         })
     })
     .then((response) => response.json())
@@ -42,7 +42,7 @@ export default class MyPhoto extends Component {
         this.refreshDeleteFlags(responseJson.length);
     })
     .catch((error) => {
-      console.error('fail to get images by distance');
+      console.error('fail to get images by username');
     });
   }
 
