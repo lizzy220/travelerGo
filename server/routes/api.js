@@ -146,7 +146,7 @@ router.post('/uploadImage', function(req, res) {
     insertImage(data, function(err, img) {
         if (!err) {
             console.log('Saved an image')
-            res.json(img);
+            res.json(img.ops[0]);
         } else {
             console.log('Save image failed')
             res.status(400);

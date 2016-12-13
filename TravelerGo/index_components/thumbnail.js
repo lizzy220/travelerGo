@@ -157,7 +157,7 @@ export default class ThumbNail extends Component {
                             <Slider
                             {...this.props}
                             minimumValue={0.5}
-                            maximumValue={3}
+                            maximumValue={8}
                             step={0.5}
                             minimumTrackTintColor='rgba(231,76,60,1)'
                             onValueChange={(value) => this.setState({distance: value})} />
@@ -251,8 +251,10 @@ const styles = StyleSheet.create({
     backgroundColor:'transparent',
   },
   description: {
-    minHeight:50,
-    backgroundColor:'rgba(255,255,255,0.4)',
+    padding:5,
+    minHeight:25,
+    maxHeight:50,
+    backgroundColor:'rgba(0,0,0,0.3)',
     position:'absolute',
     bottom:0,
     right: 0,

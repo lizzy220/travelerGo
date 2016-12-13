@@ -19,7 +19,6 @@ export default class CameraPictureScreen extends Component {
       super(props);
       this.cancel=this.cancel.bind(this);
       this.upload=this.upload.bind(this);
-      this.addNewImage=this.addNewImage.bind(this);
       this.state={description: ''};
     }
 
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height:45,
     borderWidth:1,
+    padding: 10,
     alignSelf: 'center',
   },
   funcContainer: {

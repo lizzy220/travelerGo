@@ -51,7 +51,7 @@ export default class PictureGo extends Component {
           maximumZoomScale={1.5}>
           <Image style={styles.img} source={{uri: this.props.image.image, isStatic: true}}/>
         </ScrollView>
-        <Text style={{color:'white', height:50}}>{this.props.image.description}</Text>
+        <Text style={{color:'white', height:50, paddingTop:10, alignSelf: 'center'}}>{this.props.image.description}</Text>
         </View>
         <View style={styles.goConatiner}>
           <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>
