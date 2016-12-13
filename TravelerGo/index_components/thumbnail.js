@@ -25,8 +25,7 @@ export default class ThumbNail extends Component {
       this.getImagesByDistance=this.getImagesByDistance.bind(this);
       this.refreshImagesByDistance=this.refreshImagesByDistance.bind(this);
       this.reloadImages=this.reloadImages.bind(this);
-      this.state={images: [],
-                  position: null,
+      this.state={position: null,
                   modalVisible: false,
                   distance: 0.5,};
     }
@@ -56,7 +55,7 @@ export default class ThumbNail extends Component {
       .then((response)=>response.json())
       .then((responseJson) => {
           console.log(responseJson);
-          this.setState({images: responseJson})
+          this.props.getImages(responseJson);
       })
       .catch((error) => {
         console.error('fail to get images by distance');
@@ -141,7 +140,7 @@ export default class ThumbNail extends Component {
     }
 
     render() {
-        var scrollItems=this.arrangeImages(this.state.images);
+        var scrollItems=this.arrangeImages(this.props.images);
         return(
             <View style={styles.thumbNailContainer}>
             <View>

@@ -19,6 +19,7 @@ export default class CameraPictureScreen extends Component {
       super(props);
       this.cancel=this.cancel.bind(this);
       this.upload=this.upload.bind(this);
+      this.addNewImage=this.addNewImage.bind(this);
       this.state={description: ''};
     }
 
@@ -45,7 +46,11 @@ export default class CameraPictureScreen extends Component {
                     description: this.state.description,
                   })
               })
-              .then((response) => console.log('upload successfully'))
+              .then((response)=>response.json())
+              .then((responseJson) => {
+                this.uploadNewImage(responseJson);
+                this.props.navigator.popToTop();
+              })
               .catch((error) => {
                 console.error('upload fail');
               });
@@ -53,7 +58,6 @@ export default class CameraPictureScreen extends Component {
           (error) => alert(JSON.stringify(error)),
           {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
       );
-      this.props.navigator.popToTop();
     }
 
     render(){
