@@ -26,7 +26,7 @@ export default class MyPhoto extends Component {
   }
 
   componentDidMount(){
-    fetch('https://travelergo.herokuapp.com/', {
+    fetch('https://travelergo.herokuapp.com/getImageByUsername', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
@@ -112,7 +112,7 @@ export default class MyPhoto extends Component {
     }
     this.setState({images: remainedImages});
     this.refreshDeleteFlags(remainedImages.length);
-    fetch('http://localhost:3001/api/', {
+    fetch('https://travelergo.herokuapp.com/api/deleteImage', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
