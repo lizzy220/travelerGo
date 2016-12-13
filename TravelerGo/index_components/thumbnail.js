@@ -25,6 +25,7 @@ export default class ThumbNail extends Component {
       this.arrangeImages=this.arrangeImages.bind(this);
       this.getImagesByDistance=this.getImagesByDistance.bind(this);
       this.refreshImagesByDistance=this.refreshImagesByDistance.bind(this);
+      this.reloadImages=this.reloadImages.bind(this);
       this.state={images: [],
                   position: null,
                   modalVisible: false,
@@ -32,15 +33,7 @@ export default class ThumbNail extends Component {
     }
 
     componentDidMount(){
-      navigator.geolocation.getCurrentPosition(
-          (position) => {
-              console.log(position.coords);
-              this.setState({position: position});
-              this.getImagesByDistance(position, 0.5);
-          },
-          (error) => alert(JSON.stringify(error)),
-          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-      );
+        this.reloadImages();
     }
 
     getImagesByDistance(position, distance){
@@ -68,6 +61,18 @@ export default class ThumbNail extends Component {
 
     setModalVisible(visible) {
         this.setState({modalVisible: visible});
+    }
+
+    reloadImages(){
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              console.log(position.coords);
+              this.setState({position: position});
+              this.getImagesByDistance(position, 0.5);
+          },
+          (error) => alert(JSON.stringify(error)),
+          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
     }
 
     onPressCamera(){
@@ -129,7 +134,7 @@ export default class ThumbNail extends Component {
 
     refreshImagesByDistance(){
         this.setModalVisible(false);
-        // this.getImagesByDistance(this.state.position, this.state.distance);
+        this.getImagesByDistance(this.state.position, this.state.distance);
     }
 
     render() {
@@ -167,7 +172,7 @@ export default class ThumbNail extends Component {
             <ActionButton.Item buttonColor='#3498db' title="Camera" onPress={this.onPressCamera}>
             <Icon name="md-camera" style={styles.actionButtonIcon} />
             </ActionButton.Item>
-            <ActionButton.Item buttonColor='#1abc9c' title="Refresh" onPress={() => {}}>
+            <ActionButton.Item buttonColor='#1abc9c' title="Refresh" onPress={this.reloadImages}>
             <Icon name="md-refresh" style={styles.actionButtonIcon} />
             </ActionButton.Item>
             <ActionButton.Item buttonColor='#9CCC65' title="My Photo" onPress={() => {this.props.navigator.push({title: 'myPhoto'})}}>

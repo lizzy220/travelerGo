@@ -19,6 +19,7 @@ export default class CameraPictureScreen extends Component {
       super(props);
       this.cancel=this.cancel.bind(this);
       this.upload=this.upload.bind(this);
+      this.state={description: ''};
     }
 
     cancel(){
@@ -35,9 +36,11 @@ export default class CameraPictureScreen extends Component {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
+            username: 'test',
             latitude: this.props.image.latitude,
             longitude: this.props.image.longitude,
             base64: this.props.image.data,
+            description: this.state.description;
           })
       })
       .then((response) => console.log('upload successfully'))
@@ -57,6 +60,8 @@ export default class CameraPictureScreen extends Component {
             editable = {true}
             maxLength = {150}
             placeholder={'Brief description (optional)'}
+            onChangeText={(text) => this.setState({description: text})}
+            value={this.state.description}
           />
           </View>
           <KeyboardSpacer/>
