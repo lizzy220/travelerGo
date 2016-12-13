@@ -23,11 +23,47 @@ export default class ThumbNail extends Component {
       this.onPressCamera=this.onPressCamera.bind(this);
       this.clickPicture=this.clickPicture.bind(this);
       this.arrangeImages=this.arrangeImages.bind(this);
+      this.getImagesByDistance=this.getImagesByDistance.bind(this);
+      this.refreshImagesByDistance=this.refreshImagesByDistance.bind(this);
+      this.state={images: [],
+                  position: null,
+                  modalVisible: false,
+                  distance: 0.5,};
     }
 
-    state = {
-        modalVisible: false,
-        distance: 0.5,
+    componentDidMount(){
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              console.log(position.coords);
+              this.setState({position: position});
+              this.getImagesByDistance(position, 0.5);
+          },
+          (error) => alert(JSON.stringify(error)),
+          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
+    }
+
+    getImagesByDistance(position, distance){
+      console.log('getImagesByDistance');
+      fetch('http://localhost:3001/', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            distance: distance,
+          })
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+          //update images;
+      })
+      .catch((error) => {
+        console.error('fail to get images by distance');
+      });
     }
 
     setModalVisible(visible) {
@@ -64,9 +100,9 @@ export default class ThumbNail extends Component {
           <View key={i} style={styles.scrollItemContainer}>
             {images.slice(j, j+2).map((image) =>
               <TouchableHighlight key={j++} style={styles.imageTouch} onPress={this.clickPicture}>
-                <Image style={styles.image} source={require('../place_holder_cat.jpg')}>
+                <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + image.base64, isStatic: true}}>
                   <View style={styles.description}>
-                    <Text style={{color: 'white'}}>a great place</Text>
+                    <Text style={{color: 'white'}}>{image.description}</Text>
                   </View>
                 </Image>
               </TouchableHighlight>)}
@@ -91,9 +127,13 @@ export default class ThumbNail extends Component {
       return ret;
     }
 
+    refreshImagesByDistance(){
+        this.setModalVisible(false);
+        // this.getImagesByDistance(this.state.position, this.state.distance);
+    }
+
     render() {
-        var images=[1,2,3,4,5,6,7,8,9];
-        var scrollItems=this.arrangeImages(images);
+        var scrollItems=this.arrangeImages(this.state.images);
         return(
             <View style={styles.thumbNailContainer}>
             <View>
@@ -114,9 +154,7 @@ export default class ThumbNail extends Component {
                             step={0.5}
                             minimumTrackTintColor='rgba(231,76,60,1)'
                             onValueChange={(value) => this.setState({distance: value})} />
-                            <Button onPress={() => {
-                                this.setModalVisible(false)
-                            } } style={{alignSelf: 'center', paddingTop: 5, backgroundColor: 'rgba(231,76,60,1)'}}> OK </Button>
+                            <Button onPress={this.refreshImagesByDistance} style={{alignSelf: 'stretch', marginTop: 20, backgroundColor: 'rgba(231,76,60,1)'}}> OK </Button>
                             </View>
                         </View>
                     </View>
