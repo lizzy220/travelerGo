@@ -49,7 +49,7 @@ export default class CameraPictureScreen extends Component {
               .then((responseJson) => {
                 console.log('***********');
                 console.log(responseJson);
-                this.uploadNewImage(responseJson);
+                this.props.uploadNewImage(responseJson);
                 this.props.navigator.popToTop();
               })
               .catch((error) => {
