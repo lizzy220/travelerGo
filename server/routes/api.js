@@ -50,10 +50,10 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
-function getImageWithinDistance(collection, location_field, latitude, longitude, distance, callback) {
+function getImageWithinDistance(collection, latitude, longitude, distance, callback) {
     var getResults = function(err, db) {
         db.collection(collection).find({
-            location_field: {
+            'location': {
                 "$nearSphere": {
                     "$geometry": {
                         "type": "Point",
@@ -197,11 +197,12 @@ router.post("/getImageByUsername", function(req, res){
 /*
 example: filter = {"latitude": 123456, "longitude":2334567, "distance": 100}
 */
-router.post("/getImageByDistance/:filter", function(req, res){
-  var lat = req.params.filter.latitude;
-  var lon = req.params.filter.longitude;
-  var dis = req.params.filter.distance;
-  getImageByDistance('Image', lat, lon, dis, function(imageList){
+router.post("/getImageWithinDistance", function(req, res){
+  var username = req.body.username
+  var lat = req.body.location.latitude;
+  var lon = req.body.location.longitude;
+  var dis = req.body.distance;
+  getImageWithinDistance('Image', lat, lon, dis, function(imageList){
       if(imageList){
           res.json(imageList);
       }else{
