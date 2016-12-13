@@ -16,10 +16,13 @@ export default class MyPhoto extends Component {
   constructor(props){
     super(props);
     this.state={canSelect: false,
-                images: []};
+                images: [],
+                deleteFlags: []};
     this.selectOrCancel=this.selectOrCancel.bind(this);
     this.backHome=this.backHome.bind(this);
-    this.deletePhotos=this.deletePhotos.bind(this);
+    this.deleteSingleImage=this.deleteSingleImage.bind(this);
+    this.deleteImages=this.deleteImages.bind(this);
+    this.refreshDeleteFlags=this.refreshDeleteFlags.bind(this);
   }
 
   componentDidMount(){
@@ -30,16 +33,23 @@ export default class MyPhoto extends Component {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: 'test',
+          username: "IamNotcat",
         })
     })
     .then((response) => response.json())
     .then((responseJson) => {
-        //update images;
+        this.setState({images: responseJson});
+        this.refreshDeleteFlags(responseJson.length);
     })
     .catch((error) => {
       console.error('fail to get images by distance');
     });
+  }
+
+  refreshDeleteFlags(length){
+    var tmp = [];
+    for(var i=0; i < length; i++) tmp.push(false);
+    this.setState({deleteFlags: tmp});
   }
 
   backHome(){
@@ -59,7 +69,7 @@ export default class MyPhoto extends Component {
       ret.push(
         <View key={i} style={styles.scrollItemContainer}>
           {images.slice(j, j+3).map((image) =>
-            <Photo key={j++} canSelect={this.state.canSelect} />)}
+            <Photo key={j++} canSelect={this.state.canSelect} image={image} />)}
         </View>
       );
     }
@@ -67,7 +77,7 @@ export default class MyPhoto extends Component {
     if(remain === 1){
       ret.push(
         <View key={rows} style={styles.scrollItemContainer}>
-          <Photo key={length - 1} canSelect={this.state.canSelect} />
+          <Photo key={length - 1} canSelect={this.state.canSelect} image={images[length-1]}/>
           <View style={styles.imageTouch}/>
           <View style={styles.imageTouch}/>
         </View>
@@ -75,8 +85,8 @@ export default class MyPhoto extends Component {
     }else if(remain === 2){
       ret.push(
         <View key={rows} style={styles.scrollItemContainer}>
-          <Photo key={length - 2} canSelect={this.state.canSelect} />
-          <Photo key={length - 1} canSelect={this.state.canSelect} />
+          <Photo key={length - 2} canSelect={this.state.canSelect} image={images[length-2]}/>
+          <Photo key={length - 1} canSelect={this.state.canSelect} image={images[length-1]}/>
           <View style={styles.imageTouch}/>
         </View>
       );
@@ -84,13 +94,43 @@ export default class MyPhoto extends Component {
     return ret;
   }
 
-  deletePhotos(){
-    console.log('delete');
+  deleteSingleImage(index, shouldDelete){
+      var tmp = this.state.deleteFlags.slice();
+      tmp[index] = shouldDelete;
+      this.setState({deleteFlags: tmp});
+  }
+
+  deleteImages(){
+    var remainedImages = [];
+    var deletedImages = [];
+    for(var i = 0; i < this.state.images.length; i++){
+      if(this.state.deleteFlags[i]){
+        deletedImages.push(images[i]._id);
+      }else{
+        remainedImages.push(images[i]);
+      }
+    }
+    this.setState({images: remainedImages});
+    this.refreshDeleteFlags(remainedImages.length);
+    fetch('http://localhost:3001/api/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: "IamNotcat",
+          images: deletedImages,
+        })
+    })
+    .then((response) => console.log('delete successfully'))
+    .catch((error) => {
+      console.error('delete fail');
+    });
   }
 
   render(){
-    var images=[1,2,3,4,5,6,7,8,9,10,11];
-    var scrollItems=this.arrangeImages(images);
+    var scrollItems=this.arrangeImages(this.state.images);
     return(
       <View style={styles.container}>
         <View style={styles.header}>
@@ -106,7 +146,7 @@ export default class MyPhoto extends Component {
           {scrollItems}
         </View>
         <View style={styles.footer}>
-          <Icon name='ios-trash' onPress={this.deletePhotos} style={{color: 'white'}}/>
+          <Icon name='ios-trash' onPress={this.deleteImages} style={{color: 'white'}}/>
         </View>
       </View>
     );
@@ -129,6 +169,7 @@ class Photo extends Component {
   clickPicture(){
     if(this.props.canSelect){
       var curSelectState = this.state.selected;
+      this.props.deleteSingleImage(this.props.key, !curSelectState);
       this.setState({selected: !curSelectState});
     }
   }
@@ -138,7 +179,7 @@ class Photo extends Component {
       return(
         <View style={styles.imageTouch}>
           <TouchableHighlight style={styles.imageTouch} onPress={this.clickPicture}>
-            <Image blurRadius={3} style={styles.image} source={require('./place_holder_cat.jpg')}/>
+            <Image blurRadius={3} style={styles.image} source={{uri: this.props.image.image, isStatic: true}}/>
           </TouchableHighlight>
           <Icon color='#9CCC65' name='ios-checkmark-circle' style={{position: 'absolute', bottom: 2, right: 4}}/>
         </View>
