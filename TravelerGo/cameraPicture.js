@@ -27,36 +27,32 @@ export default class CameraPictureScreen extends Component {
     }
 
     upload(){
-      var latitude = 0.0, longitude = 0.0;
       navigator.geolocation.getCurrentPosition(
           (position) => {
-              latitude = position.coords.latitude;
-              longitude = position.coords.longitude;
+              fetch('https://travelergo.herokuapp.com/api/uploadImage', {
+                  method: 'POST',
+                  headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    username: "IamNotcat",
+                    location:{
+                      latitude: position.coords.latitude,
+                      longitude: position.coords.longitude,
+                    },
+                    image: 'data:image/jpeg;base64,'+ this.props.image.data,
+                    description: this.state.description,
+                  })
+              })
+              .then((response) => console.log('upload successfully'))
+              .catch((error) => {
+                console.error('upload fail');
+              });
           },
           (error) => alert(JSON.stringify(error)),
           {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
       );
-      console.log('this.props.image');
-      fetch('https://travelergo.herokuapp.com/api/uploadImage', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            username: "IamNotcat",
-            location:{
-              latitude: latitude,
-              longitude: longitude,
-            },
-            image: 'data:image/jpeg;base64,'+ this.props.image.data,
-            description: this.state.description,
-          })
-      })
-      .then((response) => console.log('upload successfully'))
-      .catch((error) => {
-        console.error('upload fail');
-      });
       this.props.navigator.popToTop();
     }
 
