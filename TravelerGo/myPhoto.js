@@ -15,10 +15,31 @@ import {Button, Icon} from 'native-base';
 export default class MyPhoto extends Component {
   constructor(props){
     super(props);
-    this.state={canSelect: false};
+    this.state={canSelect: false,
+                images: []};
     this.selectOrCancel=this.selectOrCancel.bind(this);
     this.backHome=this.backHome.bind(this);
     this.deletePhotos=this.deletePhotos.bind(this);
+  }
+
+  componentDidMount(){
+    fetch('http://localhost:3001/', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: 'test',
+        })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+        //update images;
+    })
+    .catch((error) => {
+      console.error('fail to get images by distance');
+    });
   }
 
   backHome(){

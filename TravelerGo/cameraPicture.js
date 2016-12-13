@@ -29,18 +29,20 @@ export default class CameraPictureScreen extends Component {
     upload(){
       this.props.navigator.popToTop();
       console.log('upload image');
-      fetch('http://localhost:3001/', {
+      fetch('http://localhost:3001/api/uploadImage', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            username: 'test',
-            latitude: this.props.image.latitude,
-            longitude: this.props.image.longitude,
-            base64: this.props.image.data,
-            description: this.state.description
+            username: "IamNotcat",
+            location:{
+              latitude: this.props.image.latitude,
+              longitude: this.props.image.longitude,
+            },
+            image: 'data:image/jpeg;base64,'+ this.props.image.data,
+            description: this.state.description,
           })
       })
       .then((response) => console.log('upload successfully'))
