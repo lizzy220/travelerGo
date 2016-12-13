@@ -27,8 +27,23 @@ export default class CameraPictureScreen extends Component {
 
     upload(){
       this.props.navigator.popToTop();
-      //upload to database
-      //add pic to homeScreen
+      console.log('upload image');
+      fetch('http://localhost:3001/', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            latitude: this.props.image.latitude,
+            longitude: this.props.image.longitude,
+            base64: this.props.image.data,
+          })
+      })
+      .then((response) => console.log('upload successfully'))
+      .catch((error) => {
+        console.error('upload fail');
+      });
     }
 
     render(){

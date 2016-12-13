@@ -14,15 +14,15 @@ export default class WeatherHeader extends Component {
     watchID: ?number = null;
 
     componentDidMount() {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                this.setState({lastPosition: position});
-                this.getLocation(position)
-                this.getWeather(position)
-            },
-            (error) => alert(JSON.stringify(error)),
-            {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
-        );
+        // navigator.geolocation.getCurrentPosition(
+        //     (position) => {
+        //         this.setState({lastPosition: position});
+        //         this.getLocation(position)
+        //         this.getWeather(position)
+        //     },
+        //     (error) => alert(JSON.stringify(error)),
+        //     {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+        // );
         this.watchID = navigator.geolocation.watchPosition((position) => {
             this.setState({lastPosition: position});
             this.getLocation(position)
@@ -30,12 +30,14 @@ export default class WeatherHeader extends Component {
         });
     }
 
+
+
     componentWillUnmount() {
         navigator.geolocation.clearWatch(this.watchID);
     }
 
     async getWeather(position) {
-        console.log(position)
+        // console.log(position)
         const loc = {'lat': position.coords.latitude, 'lon': position.coords.longitude}
         try {
             var headers = new Headers();
@@ -48,7 +50,7 @@ export default class WeatherHeader extends Component {
                 }
             );
             let responseJson = await response.json();
-            console.log(responseJson)
+            // console.log(responseJson)
             main = responseJson.weather[0]
             cur_temp = (responseJson.main.temp - 273.15).toFixed()
             low_temp = (responseJson.main.temp_min - 273.15).toFixed()
@@ -63,7 +65,7 @@ export default class WeatherHeader extends Component {
     }
 
     async getLocation(position) {
-        console.log(position)
+        // console.log(position)
         const loc = {'lat': position.coords.latitude, 'lon': position.coords.longitude}
         try {
             var headers = new Headers();
@@ -76,7 +78,7 @@ export default class WeatherHeader extends Component {
                 }
             );
             let responseJson = await response.json();
-            console.log(responseJson)
+            // console.log(responseJson)
             if (responseJson.status == 'OK') {
                 name = responseJson.results[0].address_components[0].long_name;
                 this.setState({position_name: name})
