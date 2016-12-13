@@ -23,6 +23,20 @@ function validateInput(data){
     }
 }
 
+function getdb(collection, query, callback){
+    var getUser = function(err, db){
+        db.collection(collection).find(query).toArray(function(err, result){
+            if (err) {
+                console.log(err);
+            } else {
+                callback(result);
+            }
+            db.close();
+        });
+    }
+    return mongo.connect(getUser);
+}
+
 function insertdb(collection, record, callback){
     var insertUser = function(err,db){
         db.collection(collection).insert(record, callback)
@@ -59,32 +73,6 @@ function getImageWithinDistance(collection, latitude, longitude, distance, callb
 }
 
 
-/**
- * @params: lat: current latitude
- * @params: lon: current longitude
- * @params: distance: filter distance
- */
-function getImageByDistance(collection, lat, lon, distance, callback){
-    var getData = function(err, db){
-        db.collection(collection).find().toArray(function(err, result){
-            if (err) {
-                console.log(err);
-            } else {
-                var res = { images: [] };
-                for(index in result){
-                    if( getDistance(lat, lon, result[index]['latitude'], result[index]['longitude'], "K") <= distance ){
-                       res.images.push(result[index]);
-                    }
-                }
-                callback(res);
-            }
-            db.close();
-        });
-    }
-    return mongo.connect(getData);
-}
-
-
 function getdbById(collection, id, callback) {
     var getResults = function(err, db) {
         db.collection(collection).findOne(ObjectId(id), function(err, result){
@@ -101,6 +89,7 @@ function getdbById(collection, id, callback) {
 }
 
 
+
 function insertImage(record, callback){
     var insert = function(err, db){
         db.collection('Image').insert(record, callback)
@@ -109,10 +98,32 @@ function insertImage(record, callback){
     return mongo.connect(insert);
 }
 
+function deleteImage(oids, callback) {
+    var remove = function(err, db) {
+        db.collection('Image').remove({"_id": {"$in": oids}}, callback)
+        db.close();
+    }
+    return mongo.connect(remove);
+}
+
 
 router.get('/test', function(req, res){
   console.log('test1');
 });
+
+router.post('/deleteImage', function(req, res) {
+    var username = req.body.username
+    var images =  req.body.images
+    var imagesIds = images.map((id) => ObjectId(id))
+    deleteImage(imagesIds, function(err) {
+        if (!err) {
+            console.log('removed some photos');
+            res.status(200);
+        } else {
+            res.status(400);
+        }
+    })
+})
 
 
 router.post('/uploadImage', function(req, res) {
@@ -135,7 +146,7 @@ router.post('/uploadImage', function(req, res) {
     insertImage(data, function(err, img) {
         if (!err) {
             console.log('Saved an image')
-            res.status(200);
+            res.json(img);
         } else {
             console.log('Save image failed')
             res.status(400);
@@ -144,14 +155,6 @@ router.post('/uploadImage', function(req, res) {
 });
 
 router.get('/image/:id', function(req, res) {
-    // if (req.params.id in imageCache) {
-    //     var img = imageCache[req.params.id]
-    //     res.writeHead(200, {
-    //      'Content-Type': 'image/jpeg',
-    //      'Content-Length': img.length
-    //     });
-    //     res.end(img);
-    // } else {
         getdbById('Image', req.params.id, function(image) {
             if (image) {
                 res.json({'image':image})
