@@ -112,7 +112,7 @@ export default class MyPhoto extends Component {
     }
     this.setState({images: remainedImages});
     this.refreshDeleteFlags(remainedImages.length);
-    fetch('http://localhost:3001/api/', {
+    fetch('https://travelergo.herokuapp.com/api/', {
         method: 'POST',
         headers: {
           'Accept': 'application/json',
