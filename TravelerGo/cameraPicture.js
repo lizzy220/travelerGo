@@ -27,7 +27,15 @@ export default class CameraPictureScreen extends Component {
     }
 
     upload(){
-      this.props.navigator.popToTop();
+      var latitude = 0.0, longitude = 0.0;
+      navigator.geolocation.getCurrentPosition(
+          (position) => {
+              latitude = position.coords.latitude;
+              longitude = position.coords.longitude;
+          },
+          (error) => alert(JSON.stringify(error)),
+          {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      );
       console.log('this.props.image');
       fetch('https://travelergo.herokuapp.com/api/uploadImage', {
           method: 'POST',
@@ -38,8 +46,8 @@ export default class CameraPictureScreen extends Component {
           body: JSON.stringify({
             username: "IamNotcat",
             location:{
-              latitude: this.props.image.latitude,
-              longitude: this.props.image.longitude,
+              latitude: latitude,
+              longitude: longitude,
             },
             image: 'data:image/jpeg;base64,'+ this.props.image.data,
             description: this.state.description,
@@ -49,6 +57,7 @@ export default class CameraPictureScreen extends Component {
       .catch((error) => {
         console.error('upload fail');
       });
+      this.props.navigator.popToTop();
     }
 
     render(){
