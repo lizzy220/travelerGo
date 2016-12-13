@@ -22,6 +22,21 @@ import LoginPage from './loginPage';
 import SignUp from './signupPage';
 
 export default class TravelerGo extends Component {
+    constructor(){
+      super();
+      this.state={images: []};
+      this.uploadNewImage=this.uploadNewImage.bind(this);
+      this.getImages=this.getImages.bind(this);
+    }
+
+    uploadNewImage(img){
+      var tmp = this.state.images;
+      this.setState({images: [img].concat(tmp)});
+    }
+
+    getImages(images){
+      this.setState({images: images});
+    }
 
     render() {
         return (
@@ -33,9 +48,9 @@ export default class TravelerGo extends Component {
                       case 'loginPage':
                         return <LoginPage />
                       case 'homeScreen':
-                        return <HomeScreen navigator={navigator}/>
+                        return <HomeScreen navigator={navigator} images={this.state.images} getImages={this.getImages}/>
                       case 'cameraPicture':
-                        return <CameraPictureScreen navigator={navigator} image={route.image}/>
+                        return <CameraPictureScreen navigator={navigator} image={route.image} uploadNewImage={this.uploadNewImage}/>
                       case 'pictureGo':
                         return <PictureGo navigator={navigator} image={route.image}/>
                       case 'myPhoto':

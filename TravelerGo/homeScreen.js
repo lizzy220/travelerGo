@@ -36,7 +36,7 @@ export default class HomeScreen extends Component {
                     <StatusBar hidden={true} />
                     <WeatherHeader style={styles.weather_header} />
                     <View style={styles.nearby_posts}>
-                        <Thumbnail onPressCamera={this.onPressCamera} navigator={this.props.navigator}/>
+                        <Thumbnail onPressCamera={this.onPressCamera} navigator={this.props.navigator} images={this.props.images} getImages={this.props.getImages}/>
                     </View>
                 </View>
             </View>
