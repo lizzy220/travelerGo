@@ -50,6 +50,33 @@ function insertdb(collection, record, callback){
     mongo.connect(insertUser);
 }
 
+function getImageWithinDistance(collection, location_field, latitude, longitude, distance, callback) {
+    var getResults = function(err, db) {
+        db.collection(collection).find({
+            location_field: {
+                "$nearSphere": {
+                    "$geometry": {
+                        "type": "Point",
+                        "coordinates": [longitude, latitude]
+                    },
+                    "$maxDistance": distance
+                }
+            }
+        }).toArray(function(err, results) {
+            if (err) {
+                console.log(err)
+            } else if (results.length) {
+                console.log(results);
+                callback(results)
+            } else {
+                callback([])
+            }
+            db.close();
+        })
+    }
+    mongo.connect(getResults);
+}
+
 
 /**
  * @params: lat: current latitude
@@ -75,6 +102,7 @@ function getImageByDistance(collection, lat, lon, distance, callback){
     }
     return mongo.connect(getData);
 }
+
 
 function getdbById(collection, id, callback) {
     var getResults = function(err, db) {
@@ -107,7 +135,21 @@ router.get('/test', function(req, res){
 
 
 router.post('/uploadImage', function(req, res) {
-    var data = req.body
+    var username = req.body.username
+    var image = req.body.image
+    var description = req.body.description
+    var latitude = req.body.location.latitude
+    var longitude = req.body.location.longitude
+    var data = {
+        "username": username,
+        "image": image,
+        "description": description,
+        "location": {
+            "type": "Point",
+            "coordinates": [longitude, latitude]
+        }
+    }
+
     insertImage(data, function(err, img) {
         if (!err) {
             console.log('Saved an image')
