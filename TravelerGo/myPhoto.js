@@ -69,7 +69,7 @@ export default class MyPhoto extends Component {
       ret.push(
         <View key={i} style={styles.scrollItemContainer}>
           {images.slice(j, j+3).map((image) =>
-            <Photo key={j++} canSelect={this.state.canSelect} image={image} />)}
+            <Photo index={j} key={j++} canSelect={this.state.canSelect} image={image} deleteSingleImage={this.deleteSingleImage}/>)}
         </View>
       );
     }
@@ -77,7 +77,7 @@ export default class MyPhoto extends Component {
     if(remain === 1){
       ret.push(
         <View key={rows} style={styles.scrollItemContainer}>
-          <Photo key={length - 1} canSelect={this.state.canSelect} image={images[length-1]}/>
+          <Photo index={length - 1} key={length - 1} canSelect={this.state.canSelect} image={images[length-1]} deleteSingleImage={this.deleteSingleImage}/>
           <View style={styles.imageTouch}/>
           <View style={styles.imageTouch}/>
         </View>
@@ -85,8 +85,8 @@ export default class MyPhoto extends Component {
     }else if(remain === 2){
       ret.push(
         <View key={rows} style={styles.scrollItemContainer}>
-          <Photo key={length - 2} canSelect={this.state.canSelect} image={images[length-2]}/>
-          <Photo key={length - 1} canSelect={this.state.canSelect} image={images[length-1]}/>
+          <Photo index={length - 2} key={length - 2} canSelect={this.state.canSelect} image={images[length-2]} deleteSingleImage={this.deleteSingleImage}/>
+          <Photo index={length - 1} key={length - 1} canSelect={this.state.canSelect} image={images[length-1]} deleteSingleImage={this.deleteSingleImage}/>
           <View style={styles.imageTouch}/>
         </View>
       );
@@ -105,9 +105,9 @@ export default class MyPhoto extends Component {
     var deletedImages = [];
     for(var i = 0; i < this.state.images.length; i++){
       if(this.state.deleteFlags[i]){
-        deletedImages.push(images[i]._id);
+        deletedImages.push(this.state.images[i]._id);
       }else{
-        remainedImages.push(images[i]);
+        remainedImages.push(this.state.images[i]);
       }
     }
     this.setState({images: remainedImages});
@@ -169,7 +169,7 @@ class Photo extends Component {
   clickPicture(){
     if(this.props.canSelect){
       var curSelectState = this.state.selected;
-      this.props.deleteSingleImage(this.props.key, !curSelectState);
+      this.props.deleteSingleImage(this.props.index, !curSelectState);
       this.setState({selected: !curSelectState});
     }
   }
@@ -188,7 +188,7 @@ class Photo extends Component {
       return(
         <View style={styles.imageTouch}>
           <TouchableHighlight style={styles.imageTouch} onPress={this.clickPicture}>
-            <Image style={styles.image} source={require('./place_holder_cat.jpg')}/>
+            <Image style={styles.image} source={{uri: this.props.image.image, isStatic: true}}/>
           </TouchableHighlight>
         </View>
       );
