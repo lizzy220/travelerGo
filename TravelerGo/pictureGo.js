@@ -49,9 +49,9 @@ export default class PictureGo extends Component {
           horizontal={true}
           bouncesZoom={true}
           maximumZoomScale={1.5}>
-          <Image style={styles.img} source={require('./place_holder_cat.jpg')}/>
+          <Image style={styles.img} source={{uri: this.props.image.image, isStatic: true}}/>
         </ScrollView>
-        <Text style={{color:'white', height:50}}>a great place</Text>
+        <Text style={{color:'white', height:50}}>{this.props.image.description}</Text>
         </View>
         <View style={styles.goConatiner}>
           <TouchableHighlight style={styles.go} underlayColor='#ff7043' onPress={this.gotoMap}>

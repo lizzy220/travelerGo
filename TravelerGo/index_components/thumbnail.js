@@ -36,22 +36,26 @@ export default class ThumbNail extends Component {
     }
 
     getImagesByDistance(position, distance){
-      console.log('getImagesByDistance');
-      fetch('http://localhost:3001/', {
+      console.log('getImagesWithinDistance');
+      fetch('http://localhost:3001/api/getImageWithinDistance', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+            username: "IamNotcat",
+            location: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+            },
             distance: distance,
           })
       })
-      .then((response) => response.json())
+      .then((response)=>response.json())
       .then((responseJson) => {
-          //update images;
+          console.log(responseJson);
+          this.setState({images: responseJson})
       })
       .catch((error) => {
         console.error('fail to get images by distance');
@@ -67,7 +71,7 @@ export default class ThumbNail extends Component {
           (position) => {
               console.log(position.coords);
               this.setState({position: position});
-              this.getImagesByDistance(position, 0.5);
+              this.getImagesByDistance(position, 500);
           },
           (error) => alert(JSON.stringify(error)),
           {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
@@ -101,7 +105,7 @@ export default class ThumbNail extends Component {
               <TouchableHighlight key={j++} style={styles.imageTouch} onPress={()=>{
                 this.props.navigator.push({title: 'pictureGo', image: image});
               }}>
-                <Image style={styles.image} source={{uri: 'data:image/jpeg;base64,' + image.base64, isStatic: true}}>
+                <Image style={styles.image} source={{uri: image.image, isStatic: true}}>
                   <View style={styles.description}>
                     <Text style={{color: 'white'}}>{image.description}</Text>
                   </View>
@@ -114,10 +118,12 @@ export default class ThumbNail extends Component {
       if(remain === 1){
         ret.push(
           <View key={rows} style={styles.scrollItemContainer}>
-            <TouchableHighlight key={length-1} style={styles.imageTouch} onPress={this.clickPicture}>
-              <Image style={styles.image} source={require('../place_holder_cat.jpg')}>
+            <TouchableHighlight key={length-1} style={styles.imageTouch} onPress={()=>{
+              this.props.navigator.push({title: 'pictureGo', image: images[length-1]});
+            }}>
+              <Image style={styles.image} source={{uri: images[length-1].image, isStatic: true}}>
                 <View style={styles.description}>
-                  <Text style={{color: 'white'}}>a great place</Text>
+                  <Text style={{color: 'white'}}>{images[length-1].description}</Text>
                 </View>
               </Image>
             </TouchableHighlight>
@@ -130,7 +136,7 @@ export default class ThumbNail extends Component {
 
     refreshImagesByDistance(){
         this.setModalVisible(false);
-        this.getImagesByDistance(this.state.position, this.state.distance);
+        this.getImagesByDistance(this.state.position, this.state.distance*1000);
     }
 
     render() {
