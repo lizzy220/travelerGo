@@ -40,7 +40,7 @@ export default class CameraPictureScreen extends Component {
             latitude: this.props.image.latitude,
             longitude: this.props.image.longitude,
             base64: this.props.image.data,
-            description: this.state.description;
+            description: this.state.description
           })
       })
       .then((response) => console.log('upload successfully'))
