@@ -16,13 +16,17 @@ const windowSize = Dimensions.get('window');
 const { BlurView, VibrancyView } = require('react-native-blur');
 
 export default class LoginPage extends Component {
+  constructor(props){
+      super(props);
+      this.goHome=this.goHome.bind(this);
+  }
   state = {
       username: '',
       password: '',
   };
 
   goHome(){
-    this.props.navigator.push({title: 'homeScreen'});
+    this.props.navigator.replace({title: 'homeScreen'});
   }
   render(){
     return (

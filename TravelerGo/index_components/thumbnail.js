@@ -54,7 +54,6 @@ export default class ThumbNail extends Component {
       })
       .then((response)=>response.json())
       .then((responseJson) => {
-          console.log(responseJson);
           this.props.getImages(responseJson);
       })
       .catch((error) => {

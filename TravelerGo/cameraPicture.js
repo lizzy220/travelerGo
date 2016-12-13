@@ -47,6 +47,8 @@ export default class CameraPictureScreen extends Component {
               })
               .then((response)=>response.json())
               .then((responseJson) => {
+                console.log('***********');
+                console.log(responseJson);
                 this.uploadNewImage(responseJson);
                 this.props.navigator.popToTop();
               })

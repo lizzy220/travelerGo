@@ -35,7 +35,7 @@ export default class TravelerGo extends Component {
     }
 
     getImages(images){
-      this.setState({images: images});
+        this.setState({images: images})
     }
 
     render() {
@@ -46,7 +46,7 @@ export default class TravelerGo extends Component {
                 renderScene={(route, navigator) =>{
                     switch (route.title) {
                       case 'loginPage':
-                        return <LoginPage />
+                        return <LoginPage navigator={navigator} />
                       case 'homeScreen':
                         return <HomeScreen navigator={navigator} images={this.state.images} getImages={this.getImages}/>
                       case 'cameraPicture':
